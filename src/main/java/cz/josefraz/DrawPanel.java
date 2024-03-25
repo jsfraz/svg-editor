@@ -1,4 +1,4 @@
-package cz.josefraz.frames;
+package cz.josefraz;
 
 import java.awt.Color;
 import java.awt.Graphics;
