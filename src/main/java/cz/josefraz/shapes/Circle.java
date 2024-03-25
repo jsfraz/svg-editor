@@ -1,4 +1,4 @@
-package cz.josefraz;
+package cz.josefraz.shapes;
 
 public class Circle extends Shape {
 

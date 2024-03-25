@@ -1,6 +1,7 @@
-package cz.josefraz;
+package cz.josefraz.shapes;
 
 public class Square extends Shape {
+    
     private int lengthA;
 
     public Square(int x, int y, String color, int lengthA) {

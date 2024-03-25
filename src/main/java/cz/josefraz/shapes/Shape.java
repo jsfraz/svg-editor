@@ -1,9 +1,8 @@
-package cz.josefraz;
+package cz.josefraz.shapes;
 
 public abstract class Shape {
 
-    private int positionX;
-    private int postitionY;
+    private int positionX, postitionY;
     private String color;
 
     public Shape(int x, int y, String color) {
