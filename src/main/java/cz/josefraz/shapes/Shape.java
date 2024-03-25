@@ -38,32 +38,12 @@ public abstract class Shape implements IShape {
         return strokeWidth;
     }
 
-    public void setStrokeWidth(float strokeWidth) {
-        this.strokeWidth = strokeWidth;
-    }
-
     public int getPostitionY() {
         return postitionY;
     }
 
-    public void setFillColor(String fillColor) {
-        this.fillColor = fillColor;
-    }
-
     public String getOutlineColor() {
         return outlineColor;
-    }
-
-    public void setPositionX(int x) {
-        this.positionX = x;
-    }
-
-    public void setPostitionY(int y) {
-        this.postitionY = y;
-    }
-
-    public void setOutlineColor(String color) {
-        this.outlineColor = color;
     }
 
     public String getShapeName() {

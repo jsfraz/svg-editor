@@ -18,10 +18,6 @@ public class Circle extends Shape {
         return diameter;
     }
 
-    public void setDiameter(int diameter) {
-        this.diameter = diameter;
-    }
-
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;

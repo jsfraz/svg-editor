@@ -22,15 +22,7 @@ public class Line extends Shape {
     public int getPositionY2() {
         return positionY2;
     }
-
-    public void setPostitionX2(int postitionX2) {
-        this.postitionX2 = postitionX2;
-    }
-
-    public void setPositionY2(int positionY2) {
-        this.positionY2 = positionY2;
-    }
-
+    
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;

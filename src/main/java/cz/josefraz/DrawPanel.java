@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import cz.josefraz.shapes.*;
@@ -13,27 +12,33 @@ import cz.josefraz.shapes.*;
 public class DrawPanel extends JPanel {
 
     private ArrayList<Shape> shapes;
-    private Color backgroundColor;
+    private String backgroundColor;
 
     public DrawPanel(String backgroundColor, Shape... shapes) {
         super();
         this.shapes = new ArrayList<>(Arrays.asList(shapes));
+        this.backgroundColor = backgroundColor;
         try {
-            this.backgroundColor = Color.decode(backgroundColor);
-            this.setBackground(this.backgroundColor);
+            Color.decode(backgroundColor);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Chyba", JOptionPane.ERROR_MESSAGE);
+            this.backgroundColor = "#FFFFFF";
         }
+        setBackground(Color.decode(backgroundColor));
     }
 
     public DrawPanel() {
         super();
         this.shapes = new ArrayList<>();
-        this.backgroundColor = Color.white;
+        this.backgroundColor = "#FFFFFF";
+        setBackground(Color.decode(backgroundColor));
     }
 
     public ArrayList<Shape> getShapes() {
         return shapes;
+    }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
     }
 
     @Override
