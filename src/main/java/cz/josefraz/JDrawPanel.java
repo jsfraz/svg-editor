@@ -9,12 +9,12 @@ import javax.swing.JPanel;
 
 import cz.josefraz.shapes.*;
 
-public class DrawPanel extends JPanel {
+public class JDrawPanel extends JPanel {
 
     private ArrayList<Shape> shapes;
     private String backgroundColor;
 
-    public DrawPanel(String backgroundColor, Shape... shapes) {
+    public JDrawPanel(String backgroundColor, Shape... shapes) {
         super();
         this.shapes = new ArrayList<>(Arrays.asList(shapes));
         this.backgroundColor = backgroundColor;
@@ -26,7 +26,7 @@ public class DrawPanel extends JPanel {
         setBackground(Color.decode(backgroundColor));
     }
 
-    public DrawPanel() {
+    public JDrawPanel() {
         super();
         this.shapes = new ArrayList<>();
         this.backgroundColor = "#FFFFFF";
