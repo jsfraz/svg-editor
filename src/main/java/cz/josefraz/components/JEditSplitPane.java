@@ -1,6 +1,5 @@
 package cz.josefraz.components;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -56,7 +55,6 @@ public class JEditSplitPane extends JSplitPane {
             }
         });
         shapesPanel.add(shapeTable);
-        shapesPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Odsazení od kraje
         setTopComponent(shapesPanel); // První komponenta (nahoru)
 
         // Atributy
@@ -64,14 +62,12 @@ public class JEditSplitPane extends JSplitPane {
         JLabel attributesLabel = new JLabel("Atributy");
         attributesLabel.setFont(attributesLabel.getFont().deriveFont(15f)); // Zvětšení velikosti písma
         attributesPanel.add(attributesLabel, BorderLayout.NORTH);
-        attributesPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Odsazení od kraje
         // Vytvoření modelu tabulky pro atributy
         this.attributeModel = new AttributeTableModel();        // TODO change index
         // Vytvoření tabulky s atributy
         this.attributeTable = new JTable(this.attributeModel);
         this.attributeTable.setFont(this.attributeTable.getFont().deriveFont(14f));
         attributesPanel.add(attributeTable);
-        attributesPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Odsazení od kraje
         setBottomComponent(attributesPanel); // Druhá komponenta (dolů)
 
         // TODO scroll tabulek
