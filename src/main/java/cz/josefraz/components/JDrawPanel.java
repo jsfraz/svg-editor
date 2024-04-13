@@ -23,11 +23,14 @@ public class JDrawPanel extends JPanel {
             this.backgroundColor = "#FFFFFF";
         }
         setBackground(Color.decode(backgroundColor));
-        this.shapes = Singleton.GetInstance().getShapes();
+        refreshShapes();
+
+        // TODO scroll panelu
     }
 
-    public void refershShapes() {
+    public void refreshShapes() {
         this.shapes = Singleton.GetInstance().getShapes();
+        repaint();
     }
 
     public JDrawPanel() {

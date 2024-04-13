@@ -23,6 +23,10 @@ public class Singleton {
         this.shapes = shapes;
     }
 
+    public void addShapes(ArrayList<Shape> shapes) {
+        this.shapes.addAll(shapes);
+    }
+
     public ArrayList<Shape> getShapes() {
         return shapes;
     }

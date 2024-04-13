@@ -16,8 +16,9 @@ public class ShapeTableModel extends AbstractTableModel {
         this.shapes = Singleton.GetInstance().getShapes();
     }
 
-    public void refershShapes() {
+    public void refreshShapes() {
         this.shapes = Singleton.GetInstance().getShapes();
+        this.fireTableDataChanged();
     }
 
     @Override
@@ -41,20 +42,10 @@ public class ShapeTableModel extends AbstractTableModel {
         }
     }
 
-    @Override
-    public String getColumnName(int column) {
-        switch (column) {
-            case 0:
-                return "Shape Name";
-            default:
-                throw new ArrayIndexOutOfBoundsException();
-        }
-    }
-
-    // Vrátí tvar a jeho index
+    // Vrátí číslo tvaru
     private int getShapeNumber(int rowIndex, Class<?> shapeClass) {
         int number = 0;
-        for (int i = 0; i < rowIndex - 1; i++) {
+        for (int i = 0; i < rowIndex; i++) {
             if (shapes.get(i).getClass().equals(shapeClass)) {
                 number++;
             }

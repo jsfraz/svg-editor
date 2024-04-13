@@ -10,35 +10,42 @@ import cz.josefraz.shapes.Shape;
 // Vlastní model tabulky odvozený od AbstractTableModel
 public class AttributeTableModel extends AbstractTableModel {
 
-    private HashMap<String,Object> attributes = new HashMap<>();
+    private HashMap<String, Object> attributes = new HashMap<>();
 
+    // Nastavení dat tabulky podle tvaru
     public void setAttributes(Shape shape) {
-        // Získání třídy objektu
-        Class<?> shapeClass = shape.getClass();
+        this.attributes = new HashMap<>();
 
-        // Získání všech atributů třídy včetně zděděných atributů
-        while (shapeClass != null) {
-            Field[] shapeAttributes = shapeClass.getDeclaredFields();
+        if (shape != null) {
+            // Získání třídy objektu
+            Class<?> shapeClass = shape.getClass();
 
-            // Procházení všech atributů třídy
-            for (Field attribute : shapeAttributes) {
-                try {
-                    // Nastavení přístupu k privátním atributům
-                    attribute.setAccessible(true);
+            // Získání všech atributů třídy včetně zděděných atributů
+            while (shapeClass != null) {
+                Field[] shapeAttributes = shapeClass.getDeclaredFields();
 
-                    // Získání hodnoty atributu
-                    Object value = attribute.get(shape);
+                // Procházení všech atributů třídy
+                for (Field attribute : shapeAttributes) {
+                    try {
+                        // Nastavení přístupu k privátním atributům
+                        attribute.setAccessible(true);
 
-                    // Uložení názvu atributu a jeho hodnoty do HashMap
-                    attributes.put(attribute.getName(), value);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                        // Získání hodnoty atributu
+                        Object value = attribute.get(shape);
+
+                        // Uložení názvu atributu a jeho hodnoty do HashMap
+                        attributes.put(attribute.getName(), value);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            // Přesun na nadřazenou třídu pro získání jejích atributů
-            shapeClass = shapeClass.getSuperclass();
+                // Přesun na nadřazenou třídu pro získání jejích atributů
+                shapeClass = shapeClass.getSuperclass();
+            }
         }
+
+        this.fireTableDataChanged();
     }
 
     @Override
@@ -51,28 +58,16 @@ public class AttributeTableModel extends AbstractTableModel {
         return 2; // Počet sloupců - index a název tvaru
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         // Získání vstupu podle indexu
+        @SuppressWarnings("unchecked")
         Map.Entry<String, Object> entry = this.attributes.entrySet().toArray(new Map.Entry[0])[rowIndex];
         switch (columnIndex) {
             case 0:
-                return entry.getKey();        // Jméno atributu
+                return entry.getKey(); // Jméno atributu
             case 1:
-                return entry.getValue();     // Hodnota atributu
-            default:
-                return null;
-        }
-    }
-
-    @Override
-    public String getColumnName(int column) {
-        switch (column) {
-            case 0:
-                return "Atribut";
-            case 1:
-                return "Hodnota";
+                return entry.getValue(); // Hodnota atributu
             default:
                 throw new ArrayIndexOutOfBoundsException();
         }

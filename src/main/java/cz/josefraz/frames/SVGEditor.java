@@ -2,6 +2,7 @@ package cz.josefraz.frames;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -14,6 +15,8 @@ import javax.swing.UIManager;
 
 import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.components.JEditSplitPane;
+import cz.josefraz.utils.RandomShape;
+import cz.josefraz.utils.Singleton;
 
 public class SVGEditor extends JFrame {
 
@@ -70,6 +73,23 @@ public class SVGEditor extends JFrame {
             // TODO čára
         });
         toolsMenu.add(lineItem);
+        JMenuItem randomShapes = new JMenuItem("Náhodně");
+        randomShapes.addActionListener(e -> {
+            // TODO nechat uživatele vybrat počet
+            Singleton.GetInstance().addShapes(RandomShape.generateRandomShapes(100));
+            // Refresh
+            drawPanel.refreshShapes();
+            editSplitPane.refreshTables();
+        });
+        toolsMenu.add(randomShapes);
+        JMenuItem clear = new JMenuItem("Vyčisit");
+        clear.addActionListener(e -> {
+            Singleton.GetInstance().setShapes(new ArrayList<>());
+            // Refresh
+            drawPanel.refreshShapes();
+            editSplitPane.refreshTables();
+        });
+        toolsMenu.add(clear);
         menuBar.add(fileMenu);
         menuBar.add(toolsMenu);
         setJMenuBar(menuBar);
