@@ -23,7 +23,7 @@ public class ShapeTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 2; // Počet sloupců - index a název tvaru
+        return 1; // Počet sloupců
     }
 
     @Override
@@ -31,11 +31,9 @@ public class ShapeTableModel extends AbstractTableModel {
         Shape shape = shapes.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return rowIndex; // Index
-            case 1:
                 return String.format("%s%s", shape.getShapeName().toLowerCase(), getShapeNumber(rowIndex, shape.getClass())); // Název tvaru
             default:
-                return null;
+                throw new ArrayIndexOutOfBoundsException();
         }
     }
 
@@ -43,14 +41,13 @@ public class ShapeTableModel extends AbstractTableModel {
     public String getColumnName(int column) {
         switch (column) {
             case 0:
-                return "Index";
-            case 1:
                 return "Shape Name";
             default:
                 throw new ArrayIndexOutOfBoundsException();
         }
     }
 
+    // Vrátí tvar a jeho index
     private int getShapeNumber(int rowIndex, Class<?> shapeClass) {
         int number = 0;
         for (int i = 0; i < rowIndex - 1; i++) {

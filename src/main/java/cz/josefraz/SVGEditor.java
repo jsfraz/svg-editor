@@ -95,9 +95,9 @@ public class SVGEditor extends JFrame {
         // Pravý JSplitPanel pro editaci
         this.editSplitPane = new JEditSplitPane(this.shapes);
 
-        // Vytvoření SplitPane s rozdělením 3:1
+        // Vytvoření SplitPane s rozdělením
         JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedPane, this.editSplitPane);
-        mainSplitPane.setResizeWeight(0.75); // Rozdělení 75% pro drawPanel, 25% pro rightSplitPane
+        mainSplitPane.setResizeWeight(0.9); // Rozdělení 90% pro drawPanel, 10% pro rightSplitPane
         mainSplitPane.setDividerSize(3);
 
         // Přidání TabbedPane do JFrame

@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+
 import java.awt.BorderLayout;
 
 import cz.josefraz.shapes.Shape;
@@ -27,7 +28,7 @@ public class JEditSplitPane extends JSplitPane {
         // Tvary
         JPanel shapesPanel = new JPanel(new BorderLayout());
         JLabel shapesLabel = new JLabel("Tvary");
-        shapesLabel.setFont(shapesLabel.getFont().deriveFont(13.0f)); // Zvětšení velikosti písma
+        shapesLabel.setFont(shapesLabel.getFont().deriveFont(15f)); // Zvětšení velikosti písma
         shapesPanel.add(shapesLabel, BorderLayout.NORTH);
         // Vytvoření modelu tabulky pro tvary
         ShapeTableModel shapeModel = new ShapeTableModel(shapes);
@@ -40,13 +41,14 @@ public class JEditSplitPane extends JSplitPane {
         // Atributy
         JPanel attributesPanel = new JPanel(new BorderLayout());
         JLabel attributesLabel = new JLabel("Atributy");
-        attributesLabel.setFont(attributesLabel.getFont().deriveFont(13.0f)); // Zvětšení velikosti písma
+        attributesLabel.setFont(attributesLabel.getFont().deriveFont(15f)); // Zvětšení velikosti písma
         attributesPanel.add(attributesLabel, BorderLayout.NORTH);
         attributesPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Odsazení od kraje
         // Vytvoření modelu tabulky pro atributy
         AttributeTableModel attributeModel = new AttributeTableModel(shapes[0]);        // TODO change index
         // Vytvoření tabulky s atributy
         this.attributeTable = new JTable(attributeModel);
+        this.attributeTable.setFont(this.attributeTable.getFont().deriveFont(14.0f));
         attributesPanel.add(attributeTable);
         attributesPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Odsazení od kraje
         setBottomComponent(attributesPanel); // Druhá komponenta (dolů)
