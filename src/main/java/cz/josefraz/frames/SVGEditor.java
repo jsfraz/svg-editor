@@ -47,33 +47,34 @@ public class SVGEditor extends JFrame {
         fileMenu.add(openMenuItem);
         fileMenu.add(saveMenuItem);
         fileMenu.add(saveAsMenuItem);
-        JMenu toolsMenu = new JMenu("Nástroje");
+        JMenu shapeMenu = new JMenu("Tvary");
         JMenuItem circleItem = new JMenuItem("Kruh");
         circleItem.addActionListener(e -> {
             // TODO kruh
         });
-        toolsMenu.add(circleItem);
+        shapeMenu.add(circleItem);
         JMenuItem rectangleItem = new JMenuItem("Obdélník");
         rectangleItem.addActionListener(e -> {
             // TODO obdélník
         });
-        toolsMenu.add(rectangleItem);
+        shapeMenu.add(rectangleItem);
         JMenuItem squareItem = new JMenuItem("Čtverec");
         squareItem.addActionListener(e -> {
             // TODO čtverec
         });
-        toolsMenu.add(squareItem);
+        shapeMenu.add(squareItem);
         JMenuItem ovalItem = new JMenuItem("Ovál");
         ovalItem.addActionListener(e -> {
             // TODO ovál
         });
-        toolsMenu.add(ovalItem);
+        shapeMenu.add(ovalItem);
         JMenuItem lineItem = new JMenuItem("Čára");
         lineItem.addActionListener(e -> {
             // TODO čára
         });
-        toolsMenu.add(lineItem);
-        JMenuItem randomShapes = new JMenuItem("Náhodně");
+        shapeMenu.add(lineItem);
+        JMenu toolMenu = new JMenu("Nástroje");
+        JMenuItem randomShapes = new JMenuItem("Generovat náhodné tvary");
         randomShapes.addActionListener(e -> {
             // TODO nechat uživatele vybrat počet
             Singleton.GetInstance().addShapes(RandomShape.generateRandomShapes(100));
@@ -81,17 +82,18 @@ public class SVGEditor extends JFrame {
             drawPanel.refreshShapes();
             editSplitPane.refreshTables();
         });
-        toolsMenu.add(randomShapes);
-        JMenuItem clear = new JMenuItem("Vyčisit");
+        toolMenu.add(randomShapes);
+        JMenuItem clear = new JMenuItem("Vyčistit plátno");
         clear.addActionListener(e -> {
             Singleton.GetInstance().setShapes(new ArrayList<>());
             // Refresh
             drawPanel.refreshShapes();
             editSplitPane.refreshTables();
         });
-        toolsMenu.add(clear);
+        toolMenu.add(clear);
         menuBar.add(fileMenu);
-        menuBar.add(toolsMenu);
+        menuBar.add(shapeMenu);
+        menuBar.add(toolMenu);
         setJMenuBar(menuBar);
 
         // Kód SVG

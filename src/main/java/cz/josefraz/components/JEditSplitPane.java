@@ -2,6 +2,7 @@ package cz.josefraz.components;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -31,14 +32,16 @@ public class JEditSplitPane extends JSplitPane {
 
         // Tvary
         JPanel shapesPanel = new JPanel(new BorderLayout());
+        // Vytvoření popisku
         JLabel shapesLabel = new JLabel("Tvary");
         shapesLabel.setFont(shapesLabel.getFont().deriveFont(15f)); // Zvětšení velikosti písma
-        shapesPanel.add(shapesLabel, BorderLayout.NORTH);
         // Vytvoření modelu tabulky pro tvary
         this.shapeModel = new ShapeTableModel();
         // Vytvoření tabulky s tvary
         this.shapeTable = new JTable(this.shapeModel);
         this.shapeTable.setFont(this.shapeTable.getFont().deriveFont(14f));
+        // Nezobrazovat záhlaví
+        this.shapeTable.setTableHeader(null);
         // Event pro vybírání hodnot z tabulky
         ListSelectionModel shapeSelectionModel = this.shapeTable.getSelectionModel();
         shapeSelectionModel.addListSelectionListener(new ListSelectionListener() {
@@ -54,23 +57,35 @@ public class JEditSplitPane extends JSplitPane {
                 }
             }
         });
-        shapesPanel.add(shapeTable);
+        // Vytvoření JScrollPane pro tabulku
+        JScrollPane shapeScrollPane = new JScrollPane(this.shapeTable);
+        shapeScrollPane.setPreferredSize(this.shapeTable.getPreferredSize());
+        // Přidání popisku a JScrollPane s tabulkou do panelu
+        shapesPanel.add(shapesLabel, BorderLayout.NORTH);
+        shapesPanel.add(shapeScrollPane, BorderLayout.CENTER);
+        // Přidání panelu do hlavního kontejneru
         setTopComponent(shapesPanel); // První komponenta (nahoru)
 
         // Atributy
         JPanel attributesPanel = new JPanel(new BorderLayout());
+        // Vytvoření popisku
         JLabel attributesLabel = new JLabel("Atributy");
         attributesLabel.setFont(attributesLabel.getFont().deriveFont(15f)); // Zvětšení velikosti písma
-        attributesPanel.add(attributesLabel, BorderLayout.NORTH);
         // Vytvoření modelu tabulky pro atributy
-        this.attributeModel = new AttributeTableModel();        // TODO change index
+        this.attributeModel = new AttributeTableModel();
         // Vytvoření tabulky s atributy
         this.attributeTable = new JTable(this.attributeModel);
         this.attributeTable.setFont(this.attributeTable.getFont().deriveFont(14f));
-        attributesPanel.add(attributeTable);
+        // Nezobrazovat záhlaví
+        this.attributeTable.setTableHeader(null);
+        // Vytvoření JScrollPane pro tabulku
+        JScrollPane attributeScrollPane = new JScrollPane(this.attributeTable);
+        attributeScrollPane.setPreferredSize(this.attributeTable.getPreferredSize());
+        // Přidání popisku a JScrollPane s tabulkou do panelu
+        attributesPanel.add(attributesLabel, BorderLayout.NORTH);
+        attributesPanel.add(attributeScrollPane, BorderLayout.CENTER);
+        // Přidání panelu do hlavního kontejneru
         setBottomComponent(attributesPanel); // Druhá komponenta (dolů)
-
-        // TODO scroll tabulek
     }
 
     // Refresh tabulek po přidání tvaru
