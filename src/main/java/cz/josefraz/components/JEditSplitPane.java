@@ -1,10 +1,13 @@
-package cz.josefraz;
+package cz.josefraz.components;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+
+import cz.josefraz.tableModels.AttributeTableModel;
+import cz.josefraz.tableModels.ShapeTableModel;
 
 import java.awt.BorderLayout;
 

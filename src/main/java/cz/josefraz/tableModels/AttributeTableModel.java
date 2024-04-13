@@ -1,4 +1,4 @@
-package cz.josefraz;
+package cz.josefraz.tableModels;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;

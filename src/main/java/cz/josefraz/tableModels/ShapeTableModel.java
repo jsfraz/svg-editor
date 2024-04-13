@@ -1,10 +1,11 @@
-package cz.josefraz;
+package cz.josefraz.tableModels;
 
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
 import cz.josefraz.shapes.Shape;
+import cz.josefraz.utils.Singleton;
 
 // Vlastní model tabulky odvozený od AbstractTableModel
 public class ShapeTableModel extends AbstractTableModel {

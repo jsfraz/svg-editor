@@ -1,4 +1,4 @@
-package cz.josefraz;
+package cz.josefraz.frames;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,6 +11,9 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
+
+import cz.josefraz.components.JDrawPanel;
+import cz.josefraz.components.JEditSplitPane;
 
 public class SVGEditor extends JFrame {
 

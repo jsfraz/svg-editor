@@ -3,7 +3,9 @@ package cz.josefraz;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import cz.josefraz.frames.SVGEditor;
 import cz.josefraz.shapes.*;
+import cz.josefraz.utils.Singleton;
 
 public class Main {
     public static void main(String[] args) {

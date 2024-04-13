@@ -1,4 +1,4 @@
-package cz.josefraz;
+package cz.josefraz.utils;
 
 import java.util.ArrayList;
 

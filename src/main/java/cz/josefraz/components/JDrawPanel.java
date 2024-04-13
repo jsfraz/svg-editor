@@ -1,4 +1,4 @@
-package cz.josefraz;
+package cz.josefraz.components;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import cz.josefraz.shapes.*;
+import cz.josefraz.utils.Singleton;
 
 public class JDrawPanel extends JPanel {
 
