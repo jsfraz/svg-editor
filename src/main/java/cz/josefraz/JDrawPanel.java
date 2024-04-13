@@ -3,7 +3,6 @@ package cz.josefraz;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.JPanel;
 
@@ -11,12 +10,11 @@ import cz.josefraz.shapes.*;
 
 public class JDrawPanel extends JPanel {
 
-    private ArrayList<Shape> shapes;
     private String backgroundColor;
+    private ArrayList<Shape> shapes;
 
-    public JDrawPanel(String backgroundColor, Shape... shapes) {
+    public JDrawPanel(String backgroundColor) {
         super();
-        this.shapes = new ArrayList<>(Arrays.asList(shapes));
         this.backgroundColor = backgroundColor;
         try {
             Color.decode(backgroundColor);
@@ -24,6 +22,11 @@ public class JDrawPanel extends JPanel {
             this.backgroundColor = "#FFFFFF";
         }
         setBackground(Color.decode(backgroundColor));
+        this.shapes = Singleton.GetInstance().getShapes();
+    }
+
+    public void refershShapes() {
+        this.shapes = Singleton.GetInstance().getShapes();
     }
 
     public JDrawPanel() {

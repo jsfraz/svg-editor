@@ -8,8 +8,6 @@ import javax.swing.JTable;
 
 import java.awt.BorderLayout;
 
-import cz.josefraz.shapes.Shape;
-
 public class JEditSplitPane extends JSplitPane {
 
     // Tabulka tvarů
@@ -17,7 +15,7 @@ public class JEditSplitPane extends JSplitPane {
     // Tabulka atributů tvaru
     private JTable attributeTable;
 
-    public JEditSplitPane(Shape... shapes) {
+    public JEditSplitPane() {
         // Vertikální nastavení
         setOrientation(JSplitPane.VERTICAL_SPLIT);
         setResizeWeight(0.5); // Rozdělení 50% pro každou část
@@ -31,7 +29,7 @@ public class JEditSplitPane extends JSplitPane {
         shapesLabel.setFont(shapesLabel.getFont().deriveFont(15f)); // Zvětšení velikosti písma
         shapesPanel.add(shapesLabel, BorderLayout.NORTH);
         // Vytvoření modelu tabulky pro tvary
-        ShapeTableModel shapeModel = new ShapeTableModel(shapes);
+        ShapeTableModel shapeModel = new ShapeTableModel();
         // Vytvoření tabulky s tvary
         this.shapeTable = new JTable(shapeModel);
         shapesPanel.add(shapeTable);
@@ -45,7 +43,7 @@ public class JEditSplitPane extends JSplitPane {
         attributesPanel.add(attributesLabel, BorderLayout.NORTH);
         attributesPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Odsazení od kraje
         // Vytvoření modelu tabulky pro atributy
-        AttributeTableModel attributeModel = new AttributeTableModel(shapes[0]);        // TODO change index
+        AttributeTableModel attributeModel = new AttributeTableModel();        // TODO change index
         // Vytvoření tabulky s atributy
         this.attributeTable = new JTable(attributeModel);
         this.attributeTable.setFont(this.attributeTable.getFont().deriveFont(14.0f));

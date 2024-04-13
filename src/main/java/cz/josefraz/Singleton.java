@@ -1,0 +1,29 @@
+package cz.josefraz;
+
+import java.util.ArrayList;
+
+import cz.josefraz.shapes.Shape;
+
+public class Singleton {
+    private static Singleton instance;
+    private ArrayList<Shape> shapes;
+
+    private Singleton() {
+        this.shapes = new ArrayList<>();
+    }
+    
+    public static Singleton GetInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+
+    public void setShapes(ArrayList<Shape> shapes) {
+        this.shapes = shapes;
+    }
+
+    public ArrayList<Shape> getShapes() {
+        return shapes;
+    }
+}

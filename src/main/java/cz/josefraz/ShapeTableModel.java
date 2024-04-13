@@ -1,7 +1,6 @@
 package cz.josefraz;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -12,8 +11,12 @@ public class ShapeTableModel extends AbstractTableModel {
 
     private ArrayList<Shape> shapes;
 
-    public ShapeTableModel(Shape... shapes) {
-        this.shapes = new ArrayList<>(Arrays.asList(shapes));
+    public ShapeTableModel() {
+        this.shapes = Singleton.GetInstance().getShapes();
+    }
+
+    public void refershShapes() {
+        this.shapes = Singleton.GetInstance().getShapes();
     }
 
     @Override

@@ -12,23 +12,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
-import cz.josefraz.shapes.*;
-
 public class SVGEditor extends JFrame {
 
-    private Shape[] shapes;
     private JDrawPanel drawPanel;
     private JEditSplitPane editSplitPane;
 
     public SVGEditor() {
         super("SVG Editor");
-
-        this.shapes = new Shape[] {
-                new Circle(50, 30, "#0000FF", "#ff8503", 20, 1),
-                new Rectangle(20, 60, "#240771", "#fedf00", 80, 40, 2),
-                new Square(80, 90, "#8b4513", "#6a329f", 40, 3), new Oval(150, 250, "#274e13", "#cc0000", 60, 90, 2.5f),
-                new Line(150, 100, "#a64d79", 400, 300, 15f),
-        };
 
         UIManager.put("TabbedPane.selected", Color.white);
         UIManager.put("TabbedPane.focus", Color.white);
@@ -85,7 +75,7 @@ public class SVGEditor extends JFrame {
         JTextArea codeArea = new JTextArea();
 
         // Inicializace DrawPanelu, přidání tvarů
-        this.drawPanel = new JDrawPanel("#FFFFFF", this.shapes);
+        this.drawPanel = new JDrawPanel("#FFFFFF");
 
         // Vytvoření a konfigurace TabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();
@@ -93,7 +83,7 @@ public class SVGEditor extends JFrame {
         tabbedPane.addTab("Náhled", drawPanel);
 
         // Pravý JSplitPanel pro editaci
-        this.editSplitPane = new JEditSplitPane(this.shapes);
+        this.editSplitPane = new JEditSplitPane();
 
         // Vytvoření SplitPane s rozdělením
         JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedPane, this.editSplitPane);

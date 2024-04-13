@@ -12,7 +12,7 @@ public class AttributeTableModel extends AbstractTableModel {
 
     private HashMap<String,Object> attributes = new HashMap<>();
 
-    public AttributeTableModel(Shape shape) {
+    public void setAttributes(Shape shape) {
         // Získání třídy objektu
         Class<?> shapeClass = shape.getClass();
 
