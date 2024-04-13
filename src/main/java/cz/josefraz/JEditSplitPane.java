@@ -1,0 +1,54 @@
+package cz.josefraz;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import java.awt.BorderLayout;
+
+import cz.josefraz.shapes.Shape;
+
+public class JEditSplitPane extends JSplitPane {
+
+    // Tabulka tvarů
+    private JTable shapeTable;
+    // Tabulka atributů tvaru
+    private JTable attributeTable;
+
+    public JEditSplitPane(Shape... shapes) {
+        // Vertikální nastavení
+        setOrientation(JSplitPane.VERTICAL_SPLIT);
+        setResizeWeight(0.5); // Rozdělení 50% pro každou část
+        setDividerSize(3);
+
+        // TODO velikost fontu tabulek, šířka sloupců, horizontální zarovnání sloupců
+
+        // Tvary
+        JPanel shapesPanel = new JPanel(new BorderLayout());
+        JLabel shapesLabel = new JLabel("Tvary");
+        shapesLabel.setFont(shapesLabel.getFont().deriveFont(13.0f)); // Zvětšení velikosti písma
+        shapesPanel.add(shapesLabel, BorderLayout.NORTH);
+        // Vytvoření modelu tabulky pro tvary
+        ShapeTableModel shapeModel = new ShapeTableModel(shapes);
+        // Vytvoření tabulky s tvary
+        this.shapeTable = new JTable(shapeModel);
+        shapesPanel.add(shapeTable);
+        shapesPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Odsazení od kraje
+        setTopComponent(shapesPanel); // První komponenta (nahoru)
+
+        // Atributy
+        JPanel attributesPanel = new JPanel(new BorderLayout());
+        JLabel attributesLabel = new JLabel("Atributy");
+        attributesLabel.setFont(attributesLabel.getFont().deriveFont(13.0f)); // Zvětšení velikosti písma
+        attributesPanel.add(attributesLabel, BorderLayout.NORTH);
+        attributesPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Odsazení od kraje
+        // Vytvoření modelu tabulky pro atributy
+        AttributeTableModel attributeModel = new AttributeTableModel(shapes[0]);        // TODO change index
+        // Vytvoření tabulky s atributy
+        this.attributeTable = new JTable(attributeModel);
+        attributesPanel.add(attributeTable);
+        attributesPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // Odsazení od kraje
+        setBottomComponent(attributesPanel); // Druhá komponenta (dolů)
+    }
+}

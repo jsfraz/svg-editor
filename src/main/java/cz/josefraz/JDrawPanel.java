@@ -47,7 +47,6 @@ public class JDrawPanel extends JPanel {
         // Následuje specifické vykreslování
 
         for (Shape shape : this.shapes) {
-            // System.out.println(shape.getShapeName());
             shape.draw(g);
         }
     }
