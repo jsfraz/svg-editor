@@ -41,9 +41,9 @@ public class RandomShape {
         int y = random.nextInt(1000) + 1;
         String fillColor = generateRandomColor(random);
         String borderColor = generateRandomColor(random);
-        float thickness = random.nextFloat() * 10;
+        float strokeWidth = random.nextFloat() * 10;
 
-        return new Circle(x, y, borderColor, fillColor, radius, thickness);
+        return new Circle(x, y, borderColor, fillColor, radius, strokeWidth);
     }
 
     private static Rectangle createRandomRectangle(Random random) {
@@ -53,9 +53,9 @@ public class RandomShape {
         int y = random.nextInt(1000) + 1;
         String fillColor = generateRandomColor(random);
         String borderColor = generateRandomColor(random);
-        float thickness = random.nextFloat() * 10;
+        float strokeWidth = random.nextFloat() * 10;
 
-        return new Rectangle(x, y, borderColor, fillColor, width, height, thickness);
+        return new Rectangle(x, y, borderColor, fillColor, width, height, strokeWidth);
     }
 
     private static Square createRandomSquare(Random random) {
@@ -64,9 +64,9 @@ public class RandomShape {
         int y = random.nextInt(1000) + 1;
         String fillColor = generateRandomColor(random);
         String borderColor = generateRandomColor(random);
-        float thickness = random.nextFloat() * 10;
+        float strokeWidth = random.nextFloat() * 10;
 
-        return new Square(x, y, borderColor, fillColor, side, thickness);
+        return new Square(x, y, borderColor, fillColor, side, strokeWidth);
     }
 
     private static Oval createRandomOval(Random random) {
@@ -76,9 +76,9 @@ public class RandomShape {
         int y = random.nextInt(1000) + 1;
         String fillColor = generateRandomColor(random);
         String borderColor = generateRandomColor(random);
-        float thickness = random.nextFloat() * 10;
+        float strokeWidth = random.nextFloat() * 10;
 
-        return new Oval(x, y, borderColor, fillColor, width, height, thickness);
+        return new Oval(x, y, borderColor, fillColor, width, height, strokeWidth);
     }
 
     private static Line createRandomLine(Random random) {
@@ -87,9 +87,9 @@ public class RandomShape {
         int x2 = random.nextInt(1000) + 1;
         int y2 = random.nextInt(1000) + 1;
         String borderColor = generateRandomColor(random);
-        float thickness = random.nextFloat() * 10;
+        float strokeWidth = random.nextFloat() * 10;
 
-        return new Line(x1, y1, borderColor, x2, y2, thickness);
+        return new Line(x1, y1, x2, y2, borderColor, strokeWidth);
     }
 
     private static String generateRandomColor(Random random) {

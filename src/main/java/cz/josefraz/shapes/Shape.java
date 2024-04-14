@@ -5,18 +5,18 @@ import java.awt.Color;
 public abstract class Shape implements IShape {
 
     private int positionX, postitionY;
-    private String outlineColor, fillColor;
+    private String borderColor, fillColor;
     private float strokeWidth;
 
-    public Shape(int positionX, int postitionY, String outlineColor, String fillColor, float strokeWidth) {
+    public Shape(int positionX, int postitionY, String borderColor, String fillColor, float strokeWidth) {
         // TODO ošetření čísel
         this.positionX = positionX;
         this.postitionY = postitionY;
-        this.outlineColor = outlineColor;
+        this.borderColor = borderColor;
         try {
-            Color.decode(this.outlineColor);
+            Color.decode(this.borderColor);
         } catch (Exception e) {
-            this.outlineColor = "#00000";
+            this.borderColor = "#00000";
             e.printStackTrace();
         }
         this.fillColor = fillColor;
@@ -42,8 +42,8 @@ public abstract class Shape implements IShape {
         return postitionY;
     }
 
-    public String getOutlineColor() {
-        return outlineColor;
+    public String getborderColor() {
+        return borderColor;
     }
 
     public String getShapeName() {

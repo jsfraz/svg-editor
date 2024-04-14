@@ -9,8 +9,8 @@ public class Line extends Shape {
 
     private int postitionX2, positionY2;
 
-    public Line(int positionX, int postitionY, String outlineColor, int postitionX2, int positionY2, float strokeWidth) {
-        super(positionX, postitionY, outlineColor, "#ffffff", strokeWidth);
+    public Line(int positionX, int postitionY, int postitionX2, int positionY2, String borderColor, float strokeWidth) {
+        super(positionX, postitionY, borderColor, "#ffffff", strokeWidth);
         this.postitionX2 = postitionX2;
         this.positionY2 = positionY2;
     }
@@ -27,7 +27,7 @@ public class Line extends Shape {
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(this.getStrokeWidth()));
-        g2d.setColor(Color.decode(this.getOutlineColor()));
+        g2d.setColor(Color.decode(this.getborderColor()));
         g2d.drawLine(this.getPositionX(), this.getPostitionY(), this.getPostitionX2(), this.getPositionY2());
     }
 }
