@@ -3,6 +3,8 @@ package cz.josefraz.tableModels;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.sound.sampled.Line;
 import javax.swing.table.AbstractTableModel;
 
 import cz.josefraz.shapes.Shape;
@@ -34,7 +36,10 @@ public class AttributeTableModel extends AbstractTableModel {
                         Object value = attribute.get(shape);
 
                         // Uložení názvu atributu a jeho hodnoty do HashMap
-                        attributes.put(attribute.getName(), value);
+                        // Výjimka pro fillColor u Line
+                        if (shapeClass != Line.class && attribute.getName() != "fillColor") {
+                            attributes.put(attribute.getName(), value);
+                        }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }

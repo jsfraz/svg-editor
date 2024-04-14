@@ -2,17 +2,20 @@ package cz.josefraz.components;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
 import cz.josefraz.shapes.*;
+import cz.josefraz.utils.ShapeUtils;
 import cz.josefraz.utils.Singleton;
 
 public class JDrawPanel extends JPanel {
 
     private String backgroundColor;
 
-    public JDrawPanel(String backgroundColor) {
+    public JDrawPanel(String backgroundColor, JEditSplitPane editSplitPane) {
         super();
         this.backgroundColor = backgroundColor;
         try {
@@ -21,13 +24,23 @@ public class JDrawPanel extends JPanel {
             this.backgroundColor = "#FFFFFF";
         }
         setBackground(Color.decode(backgroundColor));
-        refreshShapes();
+
+        // Click event
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Shape randomShape = ShapeUtils.generateRandomShape();
+                randomShape.setPositionX(e.getX());
+                randomShape.setPostitionY(e.getY());
+                Singleton.GetInstance().addShape(randomShape);
+                repaint();
+                editSplitPane.refreshTables();
+            }
+        });
+
+        repaint();
 
         // TODO scroll panelu
-    }
-
-    public void refreshShapes() {
-        repaint();
     }
 
     public JDrawPanel() {
@@ -44,7 +57,6 @@ public class JDrawPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         // Následuje specifické vykreslování
-
         for (Shape shape : Singleton.GetInstance().getShapes()) {
             shape.draw(g);
         }

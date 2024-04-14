@@ -19,6 +19,10 @@ public class Singleton {
         return instance;
     }
 
+    public ArrayList<Shape> getShapes() {
+        return shapes;
+    }
+
     public void setShapes(ArrayList<Shape> shapes) {
         this.shapes = shapes;
     }
@@ -27,7 +31,7 @@ public class Singleton {
         this.shapes.addAll(shapes);
     }
 
-    public ArrayList<Shape> getShapes() {
-        return shapes;
+    public void addShape(Shape shape) {
+        this.shapes.add(shape);
     }
 }

@@ -19,11 +19,13 @@ public abstract class Shape implements IShape {
             e.printStackTrace();
         }
         this.fillColor = fillColor;
-        try {
-            Color.decode(this.fillColor);
-        } catch (Exception e) {
-            this.fillColor = "#FFFFFF";
-            e.printStackTrace();
+        if (!this.getClass().equals(Line.class)) {
+            try {
+                Color.decode(this.fillColor);
+            } catch (Exception e) {
+                this.fillColor = "#FFFFFF";
+                e.printStackTrace();
+            }
         }
         this.strokeWidth = strokeWidth;
     }
@@ -50,5 +52,25 @@ public abstract class Shape implements IShape {
 
     public String getFillColor() {
         return fillColor;
+    }
+
+    public void setPositionX(int positionX) {
+        this.positionX = positionX;
+    }
+
+    public void setPostitionY(int postitionY) {
+        this.postitionY = postitionY;
+    }
+
+    public void setBorderColor(String borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    public void setFillColor(String fillColor) {
+        this.fillColor = fillColor;
+    }
+
+    public void setStrokeWidth(float strokeWidth) {
+        this.strokeWidth = strokeWidth;
     }
 }

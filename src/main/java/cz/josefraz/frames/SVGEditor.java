@@ -15,7 +15,7 @@ import javax.swing.UIManager;
 
 import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.components.JEditSplitPane;
-import cz.josefraz.utils.RandomShape;
+import cz.josefraz.utils.ShapeUtils;
 import cz.josefraz.utils.Singleton;
 
 public class SVGEditor extends JFrame {
@@ -77,9 +77,9 @@ public class SVGEditor extends JFrame {
         JMenuItem randomShapes = new JMenuItem("Generovat náhodné tvary");
         randomShapes.addActionListener(e -> {
             // TODO nechat uživatele vybrat počet
-            Singleton.GetInstance().addShapes(RandomShape.generateRandomShapes(100));
+            Singleton.GetInstance().addShapes(ShapeUtils.generateRandomShapes(100));
             // Refresh
-            drawPanel.refreshShapes();
+            drawPanel.repaint();
             editSplitPane.refreshTables();
         });
         toolMenu.add(randomShapes);
@@ -87,7 +87,7 @@ public class SVGEditor extends JFrame {
         clear.addActionListener(e -> {
             Singleton.GetInstance().setShapes(new ArrayList<>());
             // Refresh
-            drawPanel.refreshShapes();
+            drawPanel.repaint();
             editSplitPane.refreshTables();
         });
         toolMenu.add(clear);
@@ -99,16 +99,16 @@ public class SVGEditor extends JFrame {
         // Kód SVG
         JTextArea codeArea = new JTextArea();
 
+        // Pravý JSplitPanel pro editaci
+        this.editSplitPane = new JEditSplitPane();
+
         // Inicializace DrawPanelu, přidání tvarů
-        this.drawPanel = new JDrawPanel("#FFFFFF");
+        this.drawPanel = new JDrawPanel("#FFFFFF", editSplitPane);
 
         // Vytvoření a konfigurace TabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Kód", codeArea);
         tabbedPane.addTab("Náhled", drawPanel);
-
-        // Pravý JSplitPanel pro editaci
-        this.editSplitPane = new JEditSplitPane();
 
         // Vytvoření SplitPane s rozdělením
         JSplitPane mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedPane, this.editSplitPane);

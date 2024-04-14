@@ -23,6 +23,14 @@ public class Oval extends Shape {
         return lengthB;
     }
 
+    public void setLengthA(int lengthA) {
+        this.lengthA = lengthA;
+    }
+
+    public void setLengthB(int lengthB) {
+        this.lengthB = lengthB;
+    }
+
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;

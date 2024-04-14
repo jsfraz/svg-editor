@@ -18,6 +18,10 @@ public class Square extends Shape {
         return lengthA;
     }
 
+    public void setLengthA(int lengthA) {
+        this.lengthA = lengthA;
+    }
+
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
