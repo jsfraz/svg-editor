@@ -7,24 +7,24 @@ import java.awt.Graphics2D;
 
 public class Line extends Shape {
 
-    private int postitionX2, positionY2;
+    private int positionX2, positionY2;
 
     public Line(int positionX, int postitionY, int postitionX2, int positionY2, String borderColor, float strokeWidth) {
         super(positionX, postitionY, borderColor, null, strokeWidth);
-        this.postitionX2 = postitionX2;
+        this.positionX2 = postitionX2;
         this.positionY2 = positionY2;
     }
 
-    public int getPostitionX2() {
-        return postitionX2;
+    public int getPositionX2() {
+        return positionX2;
     }
 
     public int getPositionY2() {
         return positionY2;
     }
 
-    public void setPostitionX2(int postitionX2) {
-        this.postitionX2 = postitionX2;
+    public void setPositionX2(int postitionX2) {
+        this.positionX2 = postitionX2;
     }
 
     public void setPositionY2(int positionY2) {
@@ -50,8 +50,21 @@ public class Line extends Shape {
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(this.getStrokeWidth()));
-        g2d.setColor(Color.decode(this.getborderColor()));
-        g2d.drawLine(this.getPositionX(), this.getPostitionY(), this.getPostitionX2(), this.getPositionY2());
+        g2d.setStroke(new BasicStroke(getStrokeWidth()));
+        g2d.setColor(Color.decode(getborderColor()));
+        g2d.drawLine(getPositionX(), getPositionY(), getPositionX2(), getPositionY2());
+    }
+
+    @Override
+    public void calculateMiddle(int mouseX, int mouseY) {
+        // Výpočet středového bodu
+        int xCenter = mouseX;
+        int yCenter = mouseY;
+        // Výpočet nových souřadnic prvního bodu (positionX) tak, aby střed ležel na (mouseX, mouseY)
+        int newPositionX = 2 * xCenter - positionX2;
+        int newPositionY = 2 * yCenter - positionY2;
+        // Nastavení nových souřadnic prvního bodu (positionX)
+        setPositionX(newPositionX);
+        setPositionY(newPositionY);
     }
 }

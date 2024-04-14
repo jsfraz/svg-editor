@@ -30,8 +30,7 @@ public class JDrawPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Shape randomShape = ShapeUtils.generateRandomShape();
-                randomShape.setPositionX(e.getX());
-                randomShape.setPostitionY(e.getY());
+                randomShape.calculateMiddle(e.getX(), e.getY());
                 Singleton.GetInstance().addShape(randomShape);
                 repaint();
                 editSplitPane.refreshTables();

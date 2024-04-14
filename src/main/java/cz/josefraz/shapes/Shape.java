@@ -19,7 +19,7 @@ public abstract class Shape implements IShape {
             e.printStackTrace();
         }
         this.fillColor = fillColor;
-        if (!this.getClass().equals(Line.class)) {
+        if (!getClass().equals(Line.class)) {
             try {
                 Color.decode(this.fillColor);
             } catch (Exception e) {
@@ -38,7 +38,7 @@ public abstract class Shape implements IShape {
         return strokeWidth;
     }
 
-    public int getPostitionY() {
+    public int getPositionY() {
         return postitionY;
     }
 
@@ -47,7 +47,7 @@ public abstract class Shape implements IShape {
     }
 
     public String getShapeName() {
-        return this.getClass().getSimpleName();
+        return getClass().getSimpleName();
     }
 
     public String getFillColor() {
@@ -58,7 +58,7 @@ public abstract class Shape implements IShape {
         this.positionX = positionX;
     }
 
-    public void setPostitionY(int postitionY) {
+    public void setPositionY(int postitionY) {
         this.postitionY = postitionY;
     }
 

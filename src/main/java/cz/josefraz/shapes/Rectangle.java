@@ -9,7 +9,8 @@ public class Rectangle extends Shape {
 
     private int lengthA, lengthB;
 
-    public Rectangle(int positionX, int postitionY, String borderColor, String fillColor, int lengthA, int lengthB, float strokeWidth) {
+    public Rectangle(int positionX, int postitionY, String borderColor, String fillColor, int lengthA, int lengthB,
+            float strokeWidth) {
         super(positionX, postitionY, borderColor, fillColor, strokeWidth);
         this.lengthA = lengthA;
         this.lengthB = lengthB;
@@ -34,10 +35,23 @@ public class Rectangle extends Shape {
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.decode(this.getFillColor()));
-        g2d.fillRect(this.getPositionX(), this.getPostitionY(), this.getLengthA(), this.getLengthB());
-        g2d.setStroke(new BasicStroke(this.getStrokeWidth()));
-        g2d.setColor(Color.decode(this.getborderColor()));
-        g2d.drawRect(this.getPositionX(), this.getPostitionY(), this.getLengthA(), this.getLengthB());
+        g2d.setColor(Color.decode(getFillColor()));
+        g2d.fillRect(getPositionX(), getPositionY(), getLengthA(), getLengthB());
+        g2d.setStroke(new BasicStroke(getStrokeWidth()));
+        g2d.setColor(Color.decode(getborderColor()));
+        g2d.drawRect(getPositionX(), getPositionY(), getLengthA(), getLengthB());
+    }
+
+    @Override
+    public void calculateMiddle(int mouseX, int mouseY) {
+        // Výpočet středového bodu
+        int xCenter = mouseX;
+        int yCenter = mouseY;
+        // Výpočet nových souřadnic obdélníku tak, aby střed ležel na (mouseX, mouseY)
+        int newPositionX = xCenter - lengthA / 2;
+        int newPositionY = yCenter - lengthB / 2;
+        // Nastavení nových souřadnic obdélníku
+        setPositionX(newPositionX);
+        setPositionY(newPositionY);
     }
 }
