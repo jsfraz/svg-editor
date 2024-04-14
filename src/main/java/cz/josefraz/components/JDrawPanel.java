@@ -15,15 +15,17 @@ import cz.josefraz.utils.Singleton;
 
 public class JDrawPanel extends JPanel {
 
+    public static final boolean defaultUseTransparentBackground = true;
+
     private String backgroundColor;
     private Image backgroundImage;
     private boolean useTransparentBackground;
 
-    public JDrawPanel(JEditSplitPane editSplitPane) {
+    public JDrawPanel(JEditSplitPane editSplitPane, int sizeX, int sizeY) {
         super();
         this.backgroundColor = "#FFFFFF";
         this.backgroundImage = new ImageIcon(getClass().getResource("/transparency.png")).getImage();
-        this.useTransparentBackground = true;
+        this.useTransparentBackground = defaultUseTransparentBackground;
 
         // Click event
         addMouseListener(new MouseAdapter() {
