@@ -77,11 +77,8 @@ public class SVGEditor extends JFrame {
         JMenu toolMenu = new JMenu("Nástroje");
         JMenuItem randomShapes = new JMenuItem("Generovat náhodné tvary");
         randomShapes.addActionListener(e -> {
-            // TODO nechat uživatele vybrat počet
-            Singleton.GetInstance().addShapes(ShapeUtils.generateRandomShapes(100));
-            // Refresh
-            drawPanel.repaint();
-            editSplitPane.refreshTables();
+            setEnabled(false);
+            new NumberInputDialog(1, 100, "Počet tvarů", "Generovat",this);
         });
         toolMenu.add(randomShapes);
         JMenuItem clear = new JMenuItem("Vyčistit plátno");
@@ -108,6 +105,11 @@ public class SVGEditor extends JFrame {
             }
         });
         backgroundMenu.add(chooseBackgroundColor);
+        JMenuItem randomBackground = new JMenuItem("Náhodné");
+        randomBackground.addActionListener(e -> {
+            drawPanel.setBackgroundColor(ShapeUtils.generateRandomColor());
+        });
+        backgroundMenu.add(randomBackground);
         menuBar.add(fileMenu);
         menuBar.add(shapeMenu);
         menuBar.add(toolMenu);
@@ -141,5 +143,13 @@ public class SVGEditor extends JFrame {
         setMinimumSize(new Dimension(1024, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+    }
+
+    public JDrawPanel getDrawPanel() {
+        return drawPanel;
+    }
+
+    public JEditSplitPane getEditSplitPane() {
+        return editSplitPane;
     }
 }

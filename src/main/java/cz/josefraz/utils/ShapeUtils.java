@@ -7,7 +7,7 @@ import cz.josefraz.shapes.*;
 public class ShapeUtils {
 
     // TODO souřadnice
-    public static ArrayList<Shape> generateRandomShapes(int count) {
+    public static ArrayList<Shape> generateRandomShapes(int count, int sizeX, int sizeY) {
         Random random = new Random();
         ArrayList<Shape> randomShapes = new ArrayList<>();
 
@@ -15,19 +15,19 @@ public class ShapeUtils {
             int shapeType = random.nextInt(5);
             switch (shapeType) {
                 case 0:
-                    randomShapes.add(createRandomCircle(random));
+                    randomShapes.add(createRandomCircle(sizeX, sizeY));
                     break;
                 case 1:
-                    randomShapes.add(createRandomRectangle(random));
+                    randomShapes.add(createRandomRectangle(sizeX, sizeY));
                     break;
                 case 2:
-                    randomShapes.add(createRandomSquare(random));
+                    randomShapes.add(createRandomSquare(sizeX, sizeY));
                     break;
                 case 3:
-                    randomShapes.add(createRandomOval(random));
+                    randomShapes.add(createRandomOval(sizeX, sizeY));
                     break;
                 case 4:
-                    randomShapes.add(createRandomLine(random));
+                    randomShapes.add(createRandomLine(sizeX, sizeY));
                     break;
             }
         }
@@ -35,88 +35,98 @@ public class ShapeUtils {
         return randomShapes;
     }
 
-    public static Shape generateRandomShape() {
+    public static Shape generateRandomShape(int sizeX, int sizeY) {
         Shape shape = null;
         Random random = new Random();
         int shapeType = random.nextInt(5);
         switch (shapeType) {
             case 0:
-                shape = createRandomCircle(random);
+                shape = createRandomCircle(sizeX, sizeY);
                 break;
             case 1:
-                shape = createRandomRectangle(random);
+                shape = createRandomRectangle(sizeX, sizeY);
                 break;
             case 2:
-                shape = createRandomSquare(random);
+                shape = createRandomSquare(sizeX, sizeY);
                 break;
             case 3:
-                shape = createRandomOval(random);
+                shape = createRandomOval(sizeX, sizeY);
                 break;
             case 4:
-                shape = createRandomLine(random);
+                shape = createRandomLine(sizeX, sizeY);
                 break;
         }
         return shape;
     }
 
-    public static Circle createRandomCircle(Random random) {
+    public static Shape generateRandomShape() {
+        return generateRandomShape(1, 1);
+    }
+
+    public static Circle createRandomCircle(int sizeX, int sizeY) {
+        Random random = new Random();
         int radius = random.nextInt(100) + 1;
-        int x = random.nextInt(1000) + 1;
-        int y = random.nextInt(1000) + 1;
-        String fillColor = generateRandomColor(random);
-        String borderColor = generateRandomColor(random);
+        int x = random.nextInt(sizeX) + 1;
+        int y = random.nextInt(sizeY) + 1;
+        String fillColor = generateRandomColor();
+        String borderColor = generateRandomColor();
         float strokeWidth = random.nextFloat() * 10;
 
         return new Circle(x, y, borderColor, fillColor, radius, strokeWidth);
     }
 
-    public static Rectangle createRandomRectangle(Random random) {
+    public static Rectangle createRandomRectangle(int sizeX, int sizeY) {
+        Random random = new Random();
         int width = random.nextInt(100) + 1;
         int height = random.nextInt(100) + 1;
-        int x = random.nextInt(1000) + 1;
-        int y = random.nextInt(1000) + 1;
-        String fillColor = generateRandomColor(random);
-        String borderColor = generateRandomColor(random);
+        int x = random.nextInt(sizeX) + 1;
+        int y = random.nextInt(sizeY) + 1;
+        String fillColor = generateRandomColor();
+        String borderColor = generateRandomColor();
         float strokeWidth = random.nextFloat() * 10;
 
         return new Rectangle(x, y, borderColor, fillColor, width, height, strokeWidth);
     }
 
-    public static Square createRandomSquare(Random random) {
+    public static Square createRandomSquare(int sizeX, int sizeY) {
+        Random random = new Random();
         int side = random.nextInt(100) + 1;
-        int x = random.nextInt(1000) + 1;
-        int y = random.nextInt(1000) + 1;
-        String fillColor = generateRandomColor(random);
-        String borderColor = generateRandomColor(random);
+        int x = random.nextInt(sizeX) + 1;
+        int y = random.nextInt(sizeY) + 1;
+        String fillColor = generateRandomColor();
+        String borderColor = generateRandomColor();
         float strokeWidth = random.nextFloat() * 10;
 
         return new Square(x, y, borderColor, fillColor, side, strokeWidth);
     }
 
-    public static Oval createRandomOval(Random random) {
+    public static Oval createRandomOval(int sizeX, int sizeY) {
+        Random random = new Random();
         int width = random.nextInt(100) + 1;
         int height = random.nextInt(100) + 1;
-        int x = random.nextInt(1000) + 1;
-        int y = random.nextInt(1000) + 1;
-        String fillColor = generateRandomColor(random);
-        String borderColor = generateRandomColor(random);
+        int x = random.nextInt(sizeX) + 1;
+        int y = random.nextInt(sizeY) + 1;
+        String fillColor = generateRandomColor();
+        String borderColor = generateRandomColor();
         float strokeWidth = random.nextFloat() * 10;
 
         return new Oval(x, y, borderColor, fillColor, width, height, strokeWidth);
     }
 
-    public static Line createRandomLine(Random random) {
-        int x1 = random.nextInt(1000) + 1;
-        int y1 = random.nextInt(1000) + 1;
-        int x2 = random.nextInt(1000) + 1;
-        int y2 = random.nextInt(1000) + 1;
-        String borderColor = generateRandomColor(random);
+    public static Line createRandomLine(int sizeX, int sizeY) {
+        Random random = new Random();
+        int x1 = random.nextInt(sizeX) + 1;
+        int y1 = random.nextInt(sizeY) + 1;
+        int x2 = random.nextInt(sizeX) + 1;
+        int y2 = random.nextInt(sizeY) + 1;
+        String borderColor = generateRandomColor();
         float strokeWidth = random.nextFloat() * 10;
 
         return new Line(x1, y1, x2, y2, borderColor, strokeWidth);
     }
 
-    public static String generateRandomColor(Random random) {
+    public static String generateRandomColor() {
+        Random random = new Random();
         int r = random.nextInt(256);
         int g = random.nextInt(256);
         int b = random.nextInt(256);
