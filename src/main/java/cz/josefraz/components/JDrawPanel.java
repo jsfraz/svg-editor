@@ -2,7 +2,6 @@ package cz.josefraz.components;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -12,7 +11,6 @@ import cz.josefraz.utils.Singleton;
 public class JDrawPanel extends JPanel {
 
     private String backgroundColor;
-    private ArrayList<Shape> shapes;
 
     public JDrawPanel(String backgroundColor) {
         super();
@@ -29,19 +27,13 @@ public class JDrawPanel extends JPanel {
     }
 
     public void refreshShapes() {
-        this.shapes = Singleton.GetInstance().getShapes();
         repaint();
     }
 
     public JDrawPanel() {
         super();
-        this.shapes = new ArrayList<>();
         this.backgroundColor = "#FFFFFF";
         setBackground(Color.decode(backgroundColor));
-    }
-
-    public ArrayList<Shape> getShapes() {
-        return shapes;
     }
 
     public String getBackgroundColor() {
@@ -53,7 +45,7 @@ public class JDrawPanel extends JPanel {
         super.paintComponent(g);
         // Následuje specifické vykreslování
 
-        for (Shape shape : this.shapes) {
+        for (Shape shape : Singleton.GetInstance().getShapes()) {
             shape.draw(g);
         }
     }

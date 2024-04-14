@@ -9,30 +9,30 @@ public class RandomShape {
     // TODO souřadnice
     public static ArrayList<Shape> generateRandomShapes(int count) {
         Random random = new Random();
-        ArrayList<Shape> shapes = new ArrayList<>();
+        ArrayList<Shape> randomShapes = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             int shapeType = random.nextInt(5);
             switch (shapeType) {
                 case 0:
-                    shapes.add(createRandomCircle(random));
+                    randomShapes.add(createRandomCircle(random));
                     break;
                 case 1:
-                    shapes.add(createRandomRectangle(random));
+                    randomShapes.add(createRandomRectangle(random));
                     break;
                 case 2:
-                    shapes.add(createRandomSquare(random));
+                    randomShapes.add(createRandomSquare(random));
                     break;
                 case 3:
-                    shapes.add(createRandomOval(random));
+                    randomShapes.add(createRandomOval(random));
                     break;
                 case 4:
-                    shapes.add(createRandomLine(random));
+                    randomShapes.add(createRandomLine(random));
                     break;
             }
         }
 
-        return shapes;
+        return randomShapes;
     }
 
     private static Circle createRandomCircle(Random random) {

@@ -9,7 +9,6 @@ public abstract class Shape implements IShape {
     private float strokeWidth;
 
     public Shape(int positionX, int postitionY, String borderColor, String fillColor, float strokeWidth) {
-        // TODO ošetření čísel
         this.positionX = positionX;
         this.postitionY = postitionY;
         this.borderColor = borderColor;
@@ -26,7 +25,6 @@ public abstract class Shape implements IShape {
             this.fillColor = "#FFFFFF";
             e.printStackTrace();
         }
-        // TODO ošetření záporných čísel
         this.strokeWidth = strokeWidth;
     }
 
