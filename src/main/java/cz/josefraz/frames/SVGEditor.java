@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -91,9 +92,26 @@ public class SVGEditor extends JFrame {
             editSplitPane.refreshTables();
         });
         toolMenu.add(clear);
+        JMenu backgroundMenu = new JMenu("Pozadí");
+        JMenuItem transparentBackground = new JMenuItem("Průhledné");
+        transparentBackground.addActionListener(e -> {
+            drawPanel.setTransparentBackground();
+        });
+        backgroundMenu.add(transparentBackground);
+        JMenuItem chooseBackgroundColor = new JMenuItem("Vybrat...");
+        chooseBackgroundColor.addActionListener(e -> {
+            // Zobrazit dialog pro výběr barvy
+            Color selectedColor = JColorChooser.showDialog(this, "Barva pozadí", Color.WHITE, false);
+            if (selectedColor != null) {
+                drawPanel.setBackgroundColor(String.format("#%02x%02x%02x", selectedColor.getRed(),
+                        selectedColor.getGreen(), selectedColor.getBlue()));
+            }
+        });
+        backgroundMenu.add(chooseBackgroundColor);
         menuBar.add(fileMenu);
         menuBar.add(shapeMenu);
         menuBar.add(toolMenu);
+        menuBar.add(backgroundMenu);
         setJMenuBar(menuBar);
 
         // Kód SVG
@@ -103,7 +121,7 @@ public class SVGEditor extends JFrame {
         this.editSplitPane = new JEditSplitPane();
 
         // Inicializace DrawPanelu, přidání tvarů
-        this.drawPanel = new JDrawPanel("#FFFFFF", editSplitPane);
+        this.drawPanel = new JDrawPanel(editSplitPane);
 
         // Vytvoření a konfigurace TabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();

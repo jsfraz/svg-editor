@@ -2,9 +2,11 @@ package cz.josefraz.components;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import cz.josefraz.shapes.*;
@@ -14,16 +16,14 @@ import cz.josefraz.utils.Singleton;
 public class JDrawPanel extends JPanel {
 
     private String backgroundColor;
+    private Image backgroundImage;
+    private boolean useTransparentBackground;
 
-    public JDrawPanel(String backgroundColor, JEditSplitPane editSplitPane) {
+    public JDrawPanel(JEditSplitPane editSplitPane) {
         super();
-        this.backgroundColor = backgroundColor;
-        try {
-            Color.decode(backgroundColor);
-        } catch (Exception e) {
-            this.backgroundColor = "#FFFFFF";
-        }
-        setBackground(Color.decode(backgroundColor));
+        this.backgroundColor = "#FFFFFF";
+        this.backgroundImage = new ImageIcon(getClass().getResource("/transparency.png")).getImage();
+        this.useTransparentBackground = true;
 
         // Click event
         addMouseListener(new MouseAdapter() {
@@ -42,20 +42,39 @@ public class JDrawPanel extends JPanel {
         // TODO scroll panelu
     }
 
-    public JDrawPanel() {
-        super();
-        this.backgroundColor = "#FFFFFF";
-        setBackground(Color.decode(backgroundColor));
+    // Nastavení "průhledné" na pozadí
+    public void setTransparentBackground() {
+        useTransparentBackground = true;
+        repaint();
     }
 
-    public String getBackgroundColor() {
-        return backgroundColor;
+    public void setBackgroundColor(String hexColor) {
+        useTransparentBackground = false;
+        backgroundColor = hexColor;
+        repaint();
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // Následuje specifické vykreslování
+
+        // Průhledné pozadí nebo barva
+        if (useTransparentBackground) {
+            if (backgroundImage != null) {
+                // Opakující se obrázek na pozadí
+                int width = getWidth();
+                int height = getHeight();
+                for (int x = 0; x < width; x += backgroundImage.getWidth(this)) {
+                    for (int y = 0; y < height; y += backgroundImage.getHeight(this)) {
+                        g.drawImage(backgroundImage, x, y, this);
+                    }
+                }
+            }
+        } else {
+            setBackground(Color.decode(backgroundColor));
+        }
+
+        // Vykreslování tvarů
         for (Shape shape : Singleton.GetInstance().getShapes()) {
             shape.draw(g);
         }
