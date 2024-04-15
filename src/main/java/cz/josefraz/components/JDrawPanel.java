@@ -3,14 +3,10 @@ package cz.josefraz.components;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import cz.josefraz.shapes.*;
-import cz.josefraz.utils.ShapeUtils;
 import cz.josefraz.utils.Singleton;
 
 public class JDrawPanel extends JPanel {
@@ -27,6 +23,7 @@ public class JDrawPanel extends JPanel {
         this.backgroundImage = new ImageIcon(getClass().getResource("/transparency.png")).getImage();
         this.useTransparentBackground = defaultUseTransparentBackground;
 
+        /*
         // Click event
         addMouseListener(new MouseAdapter() {
             @Override
@@ -38,6 +35,7 @@ public class JDrawPanel extends JPanel {
                 editSplitPane.refreshTables();
             }
         });
+        */
 
         repaint();
 

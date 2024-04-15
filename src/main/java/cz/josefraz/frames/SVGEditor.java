@@ -12,11 +12,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
 import javax.swing.UIManager;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.components.JEditSplitPane;
+import cz.josefraz.utils.FileUtils;
+import cz.josefraz.utils.SVGUtils;
 import cz.josefraz.utils.ShapeUtils;
 import cz.josefraz.utils.Singleton;
 
@@ -24,10 +29,12 @@ public class SVGEditor extends JFrame {
 
     private JMenuItem saveMenuItem;
     private JMenuItem saveAsMenuItem;
+    private JMenu codeMenu;
     private JMenu shapeMenu;
     private JMenu toolMenu;
     private JMenu backgroundMenu;
 
+    private RSyntaxTextArea codeArea;
     private JDrawPanel drawPanel;
     private JEditSplitPane editSplitPane;
     private JSplitPane mainSplitPane;
@@ -119,6 +126,43 @@ public class SVGEditor extends JFrame {
             // TODO čára
         });
         shapeMenu.add(lineItem);
+        codeMenu = new JMenu("Kód");
+        JMenuItem formatCode = new JMenuItem("Formátovat");
+        formatCode.addActionListener(e -> {
+            // Formátování
+            try {
+                String beautified = SVGUtils.beautifySVG(codeArea.getText());
+                codeArea.setText(beautified);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Formátování SVG", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        codeMenu.add(formatCode);
+        JMenuItem optimalizeCode = new JMenuItem("Optimalizovat");
+        optimalizeCode.addActionListener(e -> {
+            // Optimalizace
+            try {
+                SVGUtils.parseSVG(codeArea.getText());
+                codeArea.setText(SVGUtils.optimizeSVG(codeArea.getText()));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Optimalizace SVG", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        codeMenu.add(optimalizeCode);
+        JMenuItem validateCode = new JMenuItem("Validovat");
+        validateCode.addActionListener(e -> {
+            // Validace
+            try {
+                SVGUtils.parseSVG(codeArea.getText());
+                JOptionPane.showMessageDialog(null, "SVG kód je validní.", "Validace SVG", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Validace SVG", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        codeMenu.add(validateCode);
         toolMenu = new JMenu("Nástroje");
         JMenuItem randomShapes = new JMenuItem("Generovat náhodné tvary");
         randomShapes.addActionListener(e -> {
@@ -156,6 +200,7 @@ public class SVGEditor extends JFrame {
         });
         backgroundMenu.add(randomBackground);
         menuBar.add(fileMenu);
+        menuBar.add(codeMenu);
         menuBar.add(shapeMenu);
         menuBar.add(toolMenu);
         menuBar.add(backgroundMenu);
@@ -181,14 +226,18 @@ public class SVGEditor extends JFrame {
 
     private void addMainSplitPane() {
         // Kód SVG
-        JTextArea codeArea = new JTextArea();
+        this.codeArea = new RSyntaxTextArea();
+        codeArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
+        // TODO odstranit ukázku kódu
+        this.codeArea.setText(FileUtils.readTextFile("test.svg"));
+        RTextScrollPane codeAreaScroll = new RTextScrollPane(codeArea);
         // Pravý JSplitPanel pro editaci
         this.editSplitPane = new JEditSplitPane();
         // Inicializace DrawPanelu, přidání tvarů
         this.drawPanel = new JDrawPanel(editSplitPane, 200, 200);
         // Vytvoření a konfigurace TabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Kód", codeArea);
+        tabbedPane.addTab("Kód", codeAreaScroll);
         tabbedPane.addTab("Náhled", drawPanel);
         // Vytvoření SplitPane s rozdělením
         this.mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedPane, this.editSplitPane);
@@ -203,6 +252,7 @@ public class SVGEditor extends JFrame {
     private void enableDisableMenuButtons(boolean enable) {
         saveMenuItem.setEnabled(enable);
         saveAsMenuItem.setEnabled(enable);
+        codeMenu.setEnabled(enable);
         shapeMenu.setEnabled(enable);
         toolMenu.setEnabled(enable);
         backgroundMenu.setEnabled(enable);
