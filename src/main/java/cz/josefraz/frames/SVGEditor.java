@@ -131,7 +131,7 @@ public class SVGEditor extends JFrame {
         formatCode.addActionListener(e -> {
             // Formátování
             try {
-                String beautified = SVGUtils.beautifySVG(codeArea.getText());
+                String beautified = SVGUtils.beautifySVG(SVGUtils.optimizeSVG(codeArea.getText()));
                 codeArea.setText(beautified);
             } catch (Exception ex) {
                 ex.printStackTrace();
