@@ -17,7 +17,7 @@ public class JDrawPanel extends JPanel {
     private Image backgroundImage;
     private boolean useTransparentBackground;
 
-    public JDrawPanel(JEditSplitPane editSplitPane, int sizeX, int sizeY) {
+    public JDrawPanel(JEditSplitPane editSplitPane) {
         super();
         this.backgroundColor = "#FFFFFF";
         this.backgroundImage = new ImageIcon(getClass().getResource("/transparency.png")).getImage();

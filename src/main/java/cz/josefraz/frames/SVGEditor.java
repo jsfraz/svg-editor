@@ -234,7 +234,7 @@ public class SVGEditor extends JFrame {
         // Pravý JSplitPanel pro editaci
         this.editSplitPane = new JEditSplitPane();
         // Inicializace DrawPanelu, přidání tvarů
-        this.drawPanel = new JDrawPanel(editSplitPane, 200, 200);
+        this.drawPanel = new JDrawPanel(editSplitPane);
         // Vytvoření a konfigurace TabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Kód", codeAreaScroll);
