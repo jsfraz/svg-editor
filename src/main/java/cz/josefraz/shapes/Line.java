@@ -14,6 +14,12 @@ public class Line extends Shape {
         this.positionX2 = postitionX2;
         this.positionY2 = positionY2;
     }
+    
+    public Line() {
+        super(0, 0, "", "", 0);
+        this.positionX2 = 0;
+        this.positionY2 = 0;
+    }
 
     public int getPositionX2() {
         return positionX2;

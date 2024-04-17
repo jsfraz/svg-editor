@@ -14,6 +14,11 @@ public class Square extends Shape {
         this.lengthA = lengthA;
     }
 
+    public Square() {
+        super(0, 0, "", "", 0);
+        this.lengthA = 0;
+    }
+
     public int getLengthA() {
         return lengthA;
     }

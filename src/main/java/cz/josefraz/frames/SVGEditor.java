@@ -20,6 +20,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.components.JEditSplitPane;
+import cz.josefraz.shapes.*;
 import cz.josefraz.utils.FileUtils;
 import cz.josefraz.utils.SVGUtils;
 import cz.josefraz.utils.ShapeUtils;
@@ -104,6 +105,7 @@ public class SVGEditor extends JFrame {
         JMenuItem circleItem = new JMenuItem("Kruh");
         circleItem.addActionListener(e -> {
             // TODO kruh
+            new NewShapeDialog(this, new Line());
         });
         shapeMenu.add(circleItem);
         JMenuItem rectangleItem = new JMenuItem("Obdélník");

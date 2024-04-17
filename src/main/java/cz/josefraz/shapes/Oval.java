@@ -16,6 +16,12 @@ public class Oval extends Shape {
         this.lengthB = lengthB;
     }
 
+    public Oval() {
+        super(0, 0, "", "", 0);
+        this.lengthA = 0;
+        this.lengthB = 0;
+    }
+
     public int getLengthA() {
         return lengthA;
     }

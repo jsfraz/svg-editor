@@ -16,6 +16,12 @@ public class Rectangle extends Shape {
         this.lengthB = lengthB;
     }
 
+    public Rectangle() {
+        super(0, 0, "", "", 0);
+        this.lengthA = 0;
+        this.lengthB = 0;
+    }
+
     public int getLengthA() {
         return lengthA;
     }

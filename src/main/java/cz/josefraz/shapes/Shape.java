@@ -23,7 +23,7 @@ public abstract class Shape implements IShape {
             try {
                 Color.decode(this.fillColor);
             } catch (Exception e) {
-                this.fillColor = "#FFFFFF";
+                this.fillColor = "#ffffff";
                 e.printStackTrace();
             }
         }
