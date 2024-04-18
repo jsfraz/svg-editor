@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import cz.josefraz.shapes.Shape;
-import cz.josefraz.utils.ShapeUtils;
 import cz.josefraz.utils.Singleton;
 
 public class JDrawPanel extends JPanel {
@@ -38,18 +37,20 @@ public class JDrawPanel extends JPanel {
         this.backgroundImage = new ImageIcon(getClass().getResource("/transparency.png")).getImage();
         this.useTransparentBackground = defaultUseTransparentBackground;
 
-        // Přidání random tvaru při kliknutí
-        addMouseListener(new MouseAdapter() {
-        
-        @Override
-        public void mouseClicked(MouseEvent e) {
-        Shape randomShape = ShapeUtils.generateRandomShape();
-        randomShape.calculatePositionFromCenter(e.getX(), e.getY());
-        Singleton.GetInstance().addShape(randomShape);
-        repaint();
-        editSplitPane.refreshTables();
-        }
-        });
+        /*
+         * // Přidání random tvaru při kliknutí
+         * addMouseListener(new MouseAdapter() {
+         * 
+         * @Override
+         * public void mouseClicked(MouseEvent e) {
+         * Shape randomShape = ShapeUtils.generateRandomShape();
+         * randomShape.calculatePositionFromCenter(e.getX(), e.getY());
+         * Singleton.GetInstance().addShape(randomShape);
+         * repaint();
+         * editSplitPane.refreshTables();
+         * }
+         * });
+         */
 
         addMouseListener(new MouseAdapter() {
 
