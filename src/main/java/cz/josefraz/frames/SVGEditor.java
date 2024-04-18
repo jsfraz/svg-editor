@@ -105,7 +105,8 @@ public class SVGEditor extends JFrame {
         JMenuItem circleItem = new JMenuItem("Kruh");
         circleItem.addActionListener(e -> {
             // TODO kruh
-            new NewShapeDialog(this, new Line());
+            setEnabled(false);
+            new NewShapeDialog(this, new Circle());
         });
         shapeMenu.add(circleItem);
         JMenuItem rectangleItem = new JMenuItem("Obdélník");

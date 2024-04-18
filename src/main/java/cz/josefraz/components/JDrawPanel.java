@@ -3,16 +3,20 @@ package cz.josefraz.components;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import cz.josefraz.shapes.Shape;
+import cz.josefraz.utils.ShapeUtils;
 import cz.josefraz.utils.Singleton;
 
 public class JDrawPanel extends JPanel {
@@ -25,8 +29,8 @@ public class JDrawPanel extends JPanel {
 
     private Point startPoint;
     private Point endPoint;
-    private Shape drawnShape;
-    // TODO kreslící kurzor
+    private Shape drawnShape = null;
+    private boolean drawing = false;
 
     public JDrawPanel(JEditSplitPane editSplitPane) {
         super();
@@ -34,47 +38,68 @@ public class JDrawPanel extends JPanel {
         this.backgroundImage = new ImageIcon(getClass().getResource("/transparency.png")).getImage();
         this.useTransparentBackground = defaultUseTransparentBackground;
 
-        /*
-         * // Click event
-         * addMouseListener(new MouseAdapter() {
-         * 
-         * @Override
-         * public void mouseClicked(MouseEvent e) {
-         * Shape randomShape = ShapeUtils.generateRandomShape();
-         * randomShape.calculateMiddle(e.getX(), e.getY());
-         * Singleton.GetInstance().addShape(randomShape);
-         * repaint();
-         * editSplitPane.refreshTables();
-         * }
-         * });
-         */
+        // Přidání random tvaru při kliknutí
+        addMouseListener(new MouseAdapter() {
+        
+        @Override
+        public void mouseClicked(MouseEvent e) {
+        Shape randomShape = ShapeUtils.generateRandomShape();
+        randomShape.calculatePositionFromCenter(e.getX(), e.getY());
+        Singleton.GetInstance().addShape(randomShape);
+        repaint();
+        editSplitPane.refreshTables();
+        }
+        });
 
         addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                drawing = false;
+                drawnShape = null;
+            }
+
             @Override
             public void mousePressed(MouseEvent e) {
-                startPoint = e.getPoint();
-                endPoint = startPoint;
-                repaint();
+                if (!drawing && drawnShape != null) {
+                    drawing = true;
+                    startPoint = e.getPoint();
+                    endPoint = startPoint;
+                    repaint();
+                }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                endPoint = e.getPoint();
-                repaint();
+                if (drawing) {
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    drawing = false;
+                    drawnShape = null;
+                    endPoint = e.getPoint();
+                    // Kontroal souřadnic
+                    if (endPoint.x == startPoint.x && endPoint.y == startPoint.y) {
+                        JOptionPane.showMessageDialog(null, "Konečná souřadnice se rovná počáteční.",
+                                "Nelze nakreslit tvar", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        Singleton.GetInstance().addShape(drawnShape);
+                        editSplitPane.refreshTables();
+                        repaint();
+                    }
+                }
             }
         });
 
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                endPoint = e.getPoint();
-                repaint();
+                if (drawing) {
+                    endPoint = e.getPoint();
+                    drawnShape.calculatePositionAndSizeFromStartEndPoints(startPoint, endPoint);
+                    repaint();
+                }
             }
         });
-
-        // repaint();
-
-        // TODO scroll panelu
     }
 
     // Nastavení "průhledné" na pozadí
@@ -83,6 +108,7 @@ public class JDrawPanel extends JPanel {
         repaint();
     }
 
+    // Nastavení barvy pozadí z hex stringu
     public void setBackgroundColor(String hexColor) {
         useTransparentBackground = false;
         backgroundColor = hexColor;
@@ -92,6 +118,11 @@ public class JDrawPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        // Přetypování
+        Graphics2D g2d = (Graphics2D) g;
+        // Zapnutí antialiasingu
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Průhledné pozadí nebo barva
         if (useTransparentBackground) {
@@ -111,19 +142,20 @@ public class JDrawPanel extends JPanel {
 
         // Vykreslování tvarů
         for (Shape shape : Singleton.GetInstance().getShapes()) {
-            shape.draw(g);
+            shape.draw(g2d);
         }
 
-        if (startPoint != null && endPoint != null) {
-            int width = Math.abs(endPoint.x - startPoint.x);
-            int height = Math.abs(endPoint.y - startPoint.y);
-            int x = Math.min(startPoint.x, endPoint.x);
-            int y = Math.min(startPoint.y, endPoint.y);
-            g.drawRect(x, y, width, height);
+        // Nakreslení tvaru myší
+        if (startPoint != null && endPoint != null && drawing) {
+            drawnShape.draw(g2d);
         }
+
+        g2d.dispose();
     }
 
+    // Nastavení kresleného tvaru
     public void setDrawnShape(Shape shape) {
-
+        this.drawnShape = shape;
+        setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
     }
 }

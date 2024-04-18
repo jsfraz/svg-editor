@@ -2,8 +2,8 @@ package cz.josefraz.shapes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 public class Line extends Shape {
 
@@ -54,15 +54,15 @@ public class Line extends Shape {
     public void setFillColor(String fillColor) {}
 
     @Override
-    public void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+    public void draw(Graphics2D g2d) {
         g2d.setStroke(new BasicStroke(getStrokeWidth()));
         g2d.setColor(Color.decode(getborderColor()));
         g2d.drawLine(getPositionX(), getPositionY(), getPositionX2(), getPositionY2());
     }
 
     @Override
-    public void calculateMiddle(int mouseX, int mouseY) {
+    public void calculatePositionFromCenter(int mouseX, int mouseY) {
+        // FIXME jeden z bodu je vždy v počátku
         // Výpočet středového bodu
         int xCenter = mouseX;
         int yCenter = mouseY;
@@ -72,5 +72,11 @@ public class Line extends Shape {
         // Nastavení nových souřadnic prvního bodu (positionX)
         setPositionX(newPositionX);
         setPositionY(newPositionY);
+    }
+
+    @Override
+    public void calculatePositionAndSizeFromStartEndPoints(Point start, Point end) {
+        // TODO Auto-generated method stub
+        
     }
 }

@@ -2,8 +2,8 @@ package cz.josefraz.shapes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 public class Circle extends Shape {
 
@@ -28,18 +28,30 @@ public class Circle extends Shape {
     }
 
     @Override
-    public void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+    public void draw(Graphics2D g2d) {
         g2d.setColor(Color.decode(getFillColor()));
-        g2d.fillOval(getPositionX(), getPositionY(), getradius(), getradius());
+        g2d.fillOval(getPositionX(), getPositionY(), getradius() * 2, getradius() * 2);
         g2d.setStroke(new BasicStroke(getStrokeWidth()));
         g2d.setColor(Color.decode(getborderColor()));
-        g2d.drawOval(getPositionX(), getPositionY(), getradius(), getradius());
+        g2d.drawOval(getPositionX(), getPositionY(), getradius() * 2, getradius() * 2);
     }
 
     @Override
-    public void calculateMiddle(int mouseX, int mouseY) {
-        setPositionX((int)(mouseX - getradius() * 0.5));
-        setPositionY((int)(mouseY - getradius() * 0.5));
+    public void calculatePositionFromCenter(int mouseX, int mouseY) {
+        setPositionX((int) (mouseX - getradius()));
+        setPositionY((int) (mouseY - getradius()));
     }
+
+    @Override
+    public void calculatePositionAndSizeFromStartEndPoints(Point start, Point end) {
+        // Vypočítání šířky a výšky kruhu
+        int width = Math.abs(end.x - start.x);
+        int height = Math.abs(end.y - start.y);
+        // Vypočítání poloměru kruhu jako polovinu menší strany
+        setRadius(Math.min(width, height) / 2);
+        // Vypočítání levého horního rohu kruhu
+        setPositionX(start.x < end.x ? start.x : start.x - getradius() * 2);
+        setPositionY(start.y < end.y ? start.y : start.y - getradius() * 2);
+    }
+
 }

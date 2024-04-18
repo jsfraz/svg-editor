@@ -16,7 +16,7 @@ public abstract class Shape implements IShape {
             Color.decode(this.borderColor);
         } catch (Exception e) {
             this.borderColor = "#00000";
-            e.printStackTrace();
+            // e.printStackTrace();
         }
         this.fillColor = fillColor;
         if (!getClass().equals(Line.class)) {
@@ -24,7 +24,7 @@ public abstract class Shape implements IShape {
                 Color.decode(this.fillColor);
             } catch (Exception e) {
                 this.fillColor = "#ffffff";
-                e.printStackTrace();
+                // e.printStackTrace();
             }
         }
         this.strokeWidth = strokeWidth;

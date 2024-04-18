@@ -2,8 +2,8 @@ package cz.josefraz.shapes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 public class Rectangle extends Shape {
 
@@ -39,8 +39,7 @@ public class Rectangle extends Shape {
     }
 
     @Override
-    public void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+    public void draw(Graphics2D g2d) {
         g2d.setColor(Color.decode(getFillColor()));
         g2d.fillRect(getPositionX(), getPositionY(), getLengthA(), getLengthB());
         g2d.setStroke(new BasicStroke(getStrokeWidth()));
@@ -49,7 +48,7 @@ public class Rectangle extends Shape {
     }
 
     @Override
-    public void calculateMiddle(int mouseX, int mouseY) {
+    public void calculatePositionFromCenter(int mouseX, int mouseY) {
         // Výpočet středového bodu
         int xCenter = mouseX;
         int yCenter = mouseY;
@@ -59,5 +58,11 @@ public class Rectangle extends Shape {
         // Nastavení nových souřadnic obdélníku
         setPositionX(newPositionX);
         setPositionY(newPositionY);
+    }
+
+    @Override
+    public void calculatePositionAndSizeFromStartEndPoints(Point start, Point end) {
+        // TODO Auto-generated method stub
+        
     }
 }

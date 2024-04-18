@@ -2,8 +2,8 @@ package cz.josefraz.shapes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 
 public class Square extends Shape {
 
@@ -28,8 +28,7 @@ public class Square extends Shape {
     }
 
     @Override
-    public void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+    public void draw(Graphics2D g2d) {
         g2d.setColor(Color.decode(getFillColor()));
         g2d.fillRect(getPositionX(), getPositionY(), getLengthA(), getLengthA());
         g2d.setStroke(new BasicStroke(getStrokeWidth()));
@@ -38,16 +37,21 @@ public class Square extends Shape {
     }
 
     @Override
-public void calculateMiddle(int mouseX, int mouseY) {
-    // Výpočet středového bodu
-    int xCenter = mouseX;
-    int yCenter = mouseY;
-    // Výpočet nových souřadnic čtverce tak, aby střed ležel na (mouseX, mouseY)
-    int newPositionX = xCenter - lengthA / 2;
-    int newPositionY = yCenter - lengthA / 2;
-    // Nastavení nových souřadnic čtverce
-    setPositionX(newPositionX);
-    setPositionY(newPositionY);
-}
+    public void calculatePositionFromCenter(int mouseX, int mouseY) {
+        // Výpočet středového bodu
+        int xCenter = mouseX;
+        int yCenter = mouseY;
+        // Výpočet nových souřadnic čtverce tak, aby střed ležel na (mouseX, mouseY)
+        int newPositionX = xCenter - lengthA / 2;
+        int newPositionY = yCenter - lengthA / 2;
+        // Nastavení nových souřadnic čtverce
+        setPositionX(newPositionX);
+        setPositionY(newPositionY);
+    }
 
+    @Override
+    public void calculatePositionAndSizeFromStartEndPoints(Point start, Point end) {
+        // TODO Auto-generated method stub
+
+    }
 }
