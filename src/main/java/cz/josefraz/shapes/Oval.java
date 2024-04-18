@@ -62,7 +62,11 @@ public class Oval extends Shape {
 
     @Override
     public void calculatePositionAndSizeFromStartEndPoints(Point start, Point end) {
-        // TODO Auto-generated method stub
-        
+        // Vypočítání šířky a výšky oválu
+        setLengthA(Math.abs(end.x - start.x));
+        setLengthB(Math.abs(end.y - start.y));
+        // Vypočítání levého horního rohu oválu
+        setPositionX(Math.min(start.x, end.x));
+        setPositionY(Math.min(start.y, end.y));
     }
 }
