@@ -76,7 +76,6 @@ public class JDrawPanel extends JPanel {
                 if (drawing) {
                     setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     drawing = false;
-                    drawnShape = null;
                     endPoint = e.getPoint();
                     // Kontroal souřadnic
                     if (endPoint.x == startPoint.x && endPoint.y == startPoint.y) {
@@ -87,6 +86,7 @@ public class JDrawPanel extends JPanel {
                         editSplitPane.refreshTables();
                         repaint();
                     }
+                    drawnShape = null;
                 }
             }
         });
