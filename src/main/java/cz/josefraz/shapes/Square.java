@@ -52,6 +52,5 @@ public class Square extends Shape {
     @Override
     public void calculatePositionAndSizeFromStartEndPoints(Point start, Point end) {
         // TODO Auto-generated method stub
-
     }
 }

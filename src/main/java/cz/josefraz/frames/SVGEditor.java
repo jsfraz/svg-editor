@@ -108,14 +108,16 @@ public class SVGEditor extends JFrame {
             new NewShapeDialog(this, new Circle());
         });
         shapeMenu.add(circleItem);
-        JMenuItem rectangleItem = new JMenuItem("Obdélník");
+        JMenuItem rectangleItem = new JMenuItem("TODO Obdélník");
         rectangleItem.addActionListener(e -> {
-            // TODO obdélník
+            setEnabled(false);
+            new NewShapeDialog(this, new Rectangle());
         });
         shapeMenu.add(rectangleItem);
-        JMenuItem squareItem = new JMenuItem("Čtverec");
+        JMenuItem squareItem = new JMenuItem("TODO Čtverec");
         squareItem.addActionListener(e -> {
-            // TODO čtverec
+            setEnabled(false);
+            new NewShapeDialog(this, new Square());
         });
         shapeMenu.add(squareItem);
         JMenuItem ovalItem = new JMenuItem("Ovál");
@@ -124,9 +126,10 @@ public class SVGEditor extends JFrame {
             new NewShapeDialog(this, new Oval());
         });
         shapeMenu.add(ovalItem);
-        JMenuItem lineItem = new JMenuItem("Čára");
+        JMenuItem lineItem = new JMenuItem("TODO Čára");
         lineItem.addActionListener(e -> {
-            // TODO čára
+            setEnabled(false);
+            new NewShapeDialog(this, new Line());
         });
         shapeMenu.add(lineItem);
         codeMenu = new JMenu("Kód");

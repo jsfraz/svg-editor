@@ -77,6 +77,5 @@ public class Line extends Shape {
     @Override
     public void calculatePositionAndSizeFromStartEndPoints(Point start, Point end) {
         // TODO Auto-generated method stub
-        
     }
 }
