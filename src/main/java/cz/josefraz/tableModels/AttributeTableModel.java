@@ -90,6 +90,7 @@ public class AttributeTableModel extends AbstractTableModel {
                     // Nastavení nové hodnoty atributu
                     Object newValue = null;
                     // Přetypování na správný typ
+                    // TODO oštření barev atd...
                     switch (field.getType().getSimpleName()) {
                         case "int":
                             newValue = Integer.parseInt((String) value);
@@ -100,7 +101,7 @@ public class AttributeTableModel extends AbstractTableModel {
                             break;
 
                         case "String":
-                            newValue = (String) value;
+                            newValue = ((String) value).toUpperCase();
                             break;
                     }
                     field.set(Singleton.GetInstance().getShapes().get(shapeIndex), newValue);

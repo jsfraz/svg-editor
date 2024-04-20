@@ -12,6 +12,9 @@ public abstract class Shape implements IShape {
         this.positionX = positionX;
         this.postitionY = postitionY;
         this.borderColor = borderColor;
+        if (this.borderColor != null) {
+            this.borderColor = this.borderColor.toUpperCase();
+        }
         try {
             Color.decode(this.borderColor);
         } catch (Exception e) {
@@ -23,9 +26,12 @@ public abstract class Shape implements IShape {
             try {
                 Color.decode(this.fillColor);
             } catch (Exception e) {
-                this.fillColor = "#ffffff";
+                this.fillColor = "#FFFFFF";
                 // e.printStackTrace();
             }
+        }
+        if (this.fillColor != null) {
+            this.fillColor = this.fillColor.toUpperCase();
         }
         this.strokeWidth = strokeWidth;
     }
