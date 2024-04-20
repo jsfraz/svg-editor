@@ -26,7 +26,7 @@ public class JEditSplitPane extends JSplitPane {
     private JTable attributeTable;
     private AttributeTableModel attributeModel;
 
-    public JEditSplitPane() {
+    public JEditSplitPane(JDrawPanel drawPanel) {
         // Vertikální nastavení
         setOrientation(JSplitPane.VERTICAL_SPLIT);
         setResizeWeight(0.7); // Rozdělení 70% a 30%
@@ -72,7 +72,7 @@ public class JEditSplitPane extends JSplitPane {
         // Atributy
         JPanel attributesPanel = new JPanel(new BorderLayout());
         // Vytvoření modelu tabulky pro atributy
-        this.attributeModel = new AttributeTableModel();
+        this.attributeModel = new AttributeTableModel(drawPanel);
         // Vytvoření tabulky s atributy
         this.attributeTable = new JTable(this.attributeModel);
         this.attributeTable.setFont(this.attributeTable.getFont().deriveFont(14f));

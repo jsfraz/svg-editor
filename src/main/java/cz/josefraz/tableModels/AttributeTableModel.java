@@ -7,15 +7,23 @@ import java.util.Map;
 import javax.sound.sampled.Line;
 import javax.swing.table.AbstractTableModel;
 
+import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.shapes.Shape;
 
 // Vlastní model tabulky odvozený od AbstractTableModel
 public class AttributeTableModel extends AbstractTableModel {
 
+    private JDrawPanel drawPanel;
+    private Shape shape;
     private HashMap<String, Object> attributes = new HashMap<>();
+
+    public AttributeTableModel(JDrawPanel drawPanel) {
+        this.drawPanel = drawPanel;
+    }
 
     // Nastavení dat tabulky podle tvaru
     public void setAttributes(Shape shape) {
+        this.shape = shape;
         this.attributes = new HashMap<>();
 
         if (shape != null) {
@@ -75,6 +83,23 @@ public class AttributeTableModel extends AbstractTableModel {
                 return entry.getValue(); // Hodnota atributu
             default:
                 throw new ArrayIndexOutOfBoundsException();
+        }
+    }
+
+    @Override
+    public void setValueAt(Object value, int rowIndex, int columnIndex) {
+        if (columnIndex == 1) {
+            try {
+                Field fields = Shape.class.getDeclaredField((String) getValueAt(rowIndex, 0));
+                // Nastavení přístupnosti atributu, pokud je soukromý
+                fields.setAccessible(true);
+                // Nastavení nové hodnoty atributu
+                fields.set(shape, value);
+                fireTableCellUpdated(rowIndex, columnIndex);
+                drawPanel.repaint(); // Přidání volání k překreslení panelu
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -238,7 +238,7 @@ public class SVGEditor extends JFrame {
         this.codeArea.setText(FileUtils.readTextFile("test.svg"));
         RTextScrollPane codeAreaScroll = new RTextScrollPane(codeArea);
         // Pravý JSplitPanel pro editaci
-        this.editSplitPane = new JEditSplitPane();
+        this.editSplitPane = new JEditSplitPane(drawPanel);
         // Inicializace DrawPanelu, přidání tvarů
         this.drawPanel = new JDrawPanel(editSplitPane);
         // Vytvoření a konfigurace TabbedPane
