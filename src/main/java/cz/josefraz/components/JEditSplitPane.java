@@ -11,7 +11,6 @@ import javax.swing.event.ListSelectionListener;
 
 import cz.josefraz.tableModels.AttributeTableModel;
 import cz.josefraz.tableModels.ShapeTableModel;
-import cz.josefraz.utils.Singleton;
 
 import java.awt.BorderLayout;
 
@@ -53,10 +52,10 @@ public class JEditSplitPane extends JSplitPane {
                 // Kontrola jestli je vybrán právě jeden index
                 if (shapeSelectionModel.getSelectedItemsCount() == 1) {
                     // Změna tabulky atributů
-                    attributeModel.setAttributes(Singleton.GetInstance().getShapes().get(shapeTable.getSelectedRow()));
+                    attributeModel.setAttributes(shapeTable.getSelectedRow());
                     attributeModel.fireTableDataChanged();
                 } else {
-                    attributeModel.setAttributes(null);
+                    attributeModel.setAttributes(-1);
                 }
             }
         });

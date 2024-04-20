@@ -9,47 +9,41 @@ import javax.swing.table.AbstractTableModel;
 
 import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.shapes.Shape;
+import cz.josefraz.utils.Singleton;
 
 // Vlastní model tabulky odvozený od AbstractTableModel
 public class AttributeTableModel extends AbstractTableModel {
 
     private JDrawPanel drawPanel;
-    private Shape shape;
-    private HashMap<String, Object> attributes = new HashMap<>();
+    private int shapeIndex = -1;
+    private HashMap<String, Field> attributes = new HashMap<>();
 
     public AttributeTableModel(JDrawPanel drawPanel) {
         this.drawPanel = drawPanel;
     }
 
     // Nastavení dat tabulky podle tvaru
-    public void setAttributes(Shape shape) {
-        this.shape = shape;
+    public void setAttributes(int shapeIndex) {
+        this.shapeIndex = shapeIndex;
         this.attributes = new HashMap<>();
 
-        if (shape != null) {
+        if (shapeIndex != -1) {
             // Získání třídy objektu
-            Class<?> shapeClass = shape.getClass();
+            Class<?> shapeClass = Singleton.GetInstance().getShapes().get(shapeIndex).getClass();
 
             // Získání všech atributů třídy včetně zděděných atributů
             while (shapeClass != null) {
                 Field[] shapeAttributes = shapeClass.getDeclaredFields();
 
                 // Procházení všech atributů třídy
-                for (Field attribute : shapeAttributes) {
-                    try {
-                        // Nastavení přístupu k privátním atributům
-                        attribute.setAccessible(true);
+                for (Field field : shapeAttributes) {
+                    // Nastavení přístupu k privátním atributům
+                    field.setAccessible(true);
 
-                        // Získání hodnoty atributu
-                        Object value = attribute.get(shape);
-
-                        // Uložení názvu atributu a jeho hodnoty do HashMap
-                        // Výjimka pro fillColor u Line
-                        if (shapeClass != Line.class && attribute.getName() != "fillColor") {
-                            attributes.put(attribute.getName(), value);
-                        }
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                    // Uložení názvu atributu a jeho hodnoty do HashMap
+                    // Výjimka pro fillColor u Line
+                    if (shapeClass != Line.class && field.getName() != "fillColor") {
+                        attributes.put(field.getName(), field);
                     }
                 }
 
@@ -75,12 +69,16 @@ public class AttributeTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         // Získání vstupu podle indexu
         @SuppressWarnings("unchecked")
-        Map.Entry<String, Object> entry = this.attributes.entrySet().toArray(new Map.Entry[0])[rowIndex];
+        Map.Entry<String, Field> entry = this.attributes.entrySet().toArray(new Map.Entry[0])[rowIndex];
         switch (columnIndex) {
             case 0:
                 return entry.getKey(); // Jméno atributu
             case 1:
-                return entry.getValue(); // Hodnota atributu
+                try {
+                    return entry.getValue().get(Singleton.GetInstance().getShapes().get(shapeIndex));
+                } catch (IllegalArgumentException | IllegalAccessException e) {
+                    e.printStackTrace();
+                } // Hodnota atributu
             default:
                 throw new ArrayIndexOutOfBoundsException();
         }
@@ -90,16 +88,41 @@ public class AttributeTableModel extends AbstractTableModel {
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
         if (columnIndex == 1) {
             try {
-                Field fields = Shape.class.getDeclaredField((String) getValueAt(rowIndex, 0));
+                Field field = Shape.class.getDeclaredField((String) getValueAt(rowIndex, 0));
                 // Nastavení přístupnosti atributu, pokud je soukromý
-                fields.setAccessible(true);
+                field.setAccessible(true);
                 // Nastavení nové hodnoty atributu
-                fields.set(shape, value);
+                Object newValue	= null;
+                // Přetypování na správný typ
+                switch (field.getType().getSimpleName()) {
+                    case "int":
+                            newValue = Integer.parseInt((String) value);
+                        break;
+                
+                    case "float":
+                        newValue = Float.valueOf((String) value);
+                        break;
+
+                    case "String":
+                        newValue = (String) value;
+                        break;
+                }
+                field.set(Singleton.GetInstance().getShapes().get(shapeIndex), newValue);
+                // Update
                 fireTableCellUpdated(rowIndex, columnIndex);
-                drawPanel.repaint(); // Přidání volání k překreslení panelu
+                drawPanel.repaint();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        if (columnIndex == 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 }
