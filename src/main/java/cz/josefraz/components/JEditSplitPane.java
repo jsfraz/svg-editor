@@ -48,6 +48,7 @@ public class JEditSplitPane extends JSplitPane {
         shapeSelectionModel.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent arg0) {
+                // FIXME když se edituej atribut a překlikne se na jiný tvar, hodnota v buňce zůstane, ALE neprojde to
                 attributeLabel.setText(String.format("Atributy (%s)", attributeTable.getModel().getRowCount()));
                 // Kontrola jestli je vybrán právě jeden index
                 if (shapeSelectionModel.getSelectedItemsCount() == 1) {

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
+import cz.josefraz.shapes.Line;
 import cz.josefraz.utils.Singleton;
 
 // Vlastní model tabulky odvozený od AbstractTableModel
@@ -31,20 +32,16 @@ public class AttributeTableModel extends AbstractTableModel {
                 for (Field field : shapeAttributes) {
                     // Nastavení přístupu k privátním atributům
                     field.setAccessible(true);
-
-                    // TODO výjimka pro fill color pro Line
-                    /*
-                     * // Uložení názvu atributu a jeho hodnoty do HashMap
-                     * // Výjimka pro fillColor u Line
-                     * if (shapeClass != Line.class && field.getName() != "fillColor") {
-                     * attributes.put(field.getName(), field);
-                     * }
-                     */
                     attributes.put(field.getName(), field);
                 }
 
                 // Přesun na nadřazenou třídu pro získání jejích atributů
                 shapeClass = shapeClass.getSuperclass();
+            }
+
+            // Výjimka fillColor pro Line
+            if (Singleton.GetInstance().getShapes().get(shapeIndex).getClass() == Line.class) {
+                attributes.remove("fillColor");
             }
         }
 
