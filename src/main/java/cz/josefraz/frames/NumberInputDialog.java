@@ -31,11 +31,11 @@ public class NumberInputDialog extends JDialog {
         okButton.addActionListener(e -> {
             // Vygenerování tvarů
             Singleton.GetInstance()
-                    .addShapes(ShapeUtils.generateRandomShapes(slider.getValue(), mainWindow.getDrawPanel().getWidth(),
-                            mainWindow.getDrawPanel().getHeight()));
+                    .addShapes(ShapeUtils.generateRandomShapes(slider.getValue(), Singleton.GetInstance().getDrawPanel().getWidth(),
+                    Singleton.GetInstance().getDrawPanel().getHeight()));
             // Refresh
             mainWindow.setEnabled(true);
-            mainWindow.getDrawPanel().repaint();
+            Singleton.GetInstance().getDrawPanel().repaint();
             mainWindow.getEditSplitPane().refreshTables();
             dispose();
         });

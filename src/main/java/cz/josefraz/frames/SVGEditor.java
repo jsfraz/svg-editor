@@ -36,7 +36,6 @@ public class SVGEditor extends JFrame {
     private JMenu backgroundMenu;
 
     private RSyntaxTextArea codeArea;
-    private JDrawPanel drawPanel;
     private JEditSplitPane editSplitPane;
     private JSplitPane mainSplitPane;
 
@@ -180,14 +179,14 @@ public class SVGEditor extends JFrame {
         clear.addActionListener(e -> {
             Singleton.GetInstance().setShapes(new ArrayList<>());
             // Refresh
-            drawPanel.repaint();
+            Singleton.GetInstance().getDrawPanel().repaint();
             editSplitPane.refreshTables();
         });
         toolMenu.add(clear);
         backgroundMenu = new JMenu("Pozadí");
         JMenuItem transparentBackground = new JMenuItem("Průhledné");
         transparentBackground.addActionListener(e -> {
-            drawPanel.setTransparentBackground();
+            Singleton.GetInstance().getDrawPanel().setTransparentBackground();
         });
         backgroundMenu.add(transparentBackground);
         JMenuItem chooseBackgroundColor = new JMenuItem("Vybrat...");
@@ -195,14 +194,14 @@ public class SVGEditor extends JFrame {
             // Zobrazit dialog pro výběr barvy
             Color selectedColor = JColorChooser.showDialog(this, "Barva pozadí", Color.WHITE, false);
             if (selectedColor != null) {
-                drawPanel.setBackgroundColor(String.format("#%02x%02x%02x", selectedColor.getRed(),
+                Singleton.GetInstance().getDrawPanel().setBackgroundColor(String.format("#%02x%02x%02x", selectedColor.getRed(),
                         selectedColor.getGreen(), selectedColor.getBlue()));
             }
         });
         backgroundMenu.add(chooseBackgroundColor);
         JMenuItem randomBackground = new JMenuItem("Náhodné");
         randomBackground.addActionListener(e -> {
-            drawPanel.setBackgroundColor(ShapeUtils.generateRandomColor());
+            Singleton.GetInstance().getDrawPanel().setBackgroundColor(ShapeUtils.generateRandomColor());
         });
         backgroundMenu.add(randomBackground);
         menuBar.add(fileMenu);
@@ -222,10 +221,6 @@ public class SVGEditor extends JFrame {
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
     }
 
-    public JDrawPanel getDrawPanel() {
-        return drawPanel;
-    }
-
     public JEditSplitPane getEditSplitPane() {
         return editSplitPane;
     }
@@ -238,13 +233,13 @@ public class SVGEditor extends JFrame {
         this.codeArea.setText(FileUtils.readTextFile("test.svg"));
         RTextScrollPane codeAreaScroll = new RTextScrollPane(codeArea);
         // Pravý JSplitPanel pro editaci
-        this.editSplitPane = new JEditSplitPane(drawPanel);
+        this.editSplitPane = new JEditSplitPane();
         // Inicializace DrawPanelu, přidání tvarů
-        this.drawPanel = new JDrawPanel(editSplitPane);
+        Singleton.GetInstance().setDrawPanel(new JDrawPanel(editSplitPane));
         // Vytvoření a konfigurace TabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Kód", codeAreaScroll);
-        tabbedPane.addTab("Náhled", drawPanel);
+        tabbedPane.addTab("Náhled", Singleton.GetInstance().getDrawPanel());
         // Vytvoření SplitPane s rozdělením
         this.mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedPane, this.editSplitPane);
         this.mainSplitPane.setResizeWeight(0.9); // Rozdělení 90% pro drawPanel, 10% pro rightSplitPane

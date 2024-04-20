@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 
 import cz.josefraz.shapes.Line;
 import cz.josefraz.utils.ColorUtils;
+import cz.josefraz.utils.Singleton;
 import cz.josefraz.shapes.*;
 
 public class NewShapeDialog extends JFrame {
@@ -127,7 +128,7 @@ public class NewShapeDialog extends JFrame {
             shape.setBorderColor(ColorUtils.colorToHex(borderColor));
             shape.setStrokeWidth(borderWidth);
             // Nastavení tvaru
-            mainWindow.getDrawPanel().setDrawnShape(shape);
+            Singleton.GetInstance().getDrawPanel().setDrawnShape(shape);
             mainWindow.setEnabled(true);
             dispose();
         });

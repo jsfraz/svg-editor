@@ -4,23 +4,15 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.sound.sampled.Line;
 import javax.swing.table.AbstractTableModel;
 
-import cz.josefraz.components.JDrawPanel;
-import cz.josefraz.shapes.Shape;
 import cz.josefraz.utils.Singleton;
 
 // Vlastní model tabulky odvozený od AbstractTableModel
 public class AttributeTableModel extends AbstractTableModel {
 
-    private JDrawPanel drawPanel;
     private int shapeIndex = -1;
     private HashMap<String, Field> attributes = new HashMap<>();
-
-    public AttributeTableModel(JDrawPanel drawPanel) {
-        this.drawPanel = drawPanel;
-    }
 
     // Nastavení dat tabulky podle tvaru
     public void setAttributes(int shapeIndex) {
@@ -40,11 +32,15 @@ public class AttributeTableModel extends AbstractTableModel {
                     // Nastavení přístupu k privátním atributům
                     field.setAccessible(true);
 
-                    // Uložení názvu atributu a jeho hodnoty do HashMap
-                    // Výjimka pro fillColor u Line
-                    if (shapeClass != Line.class && field.getName() != "fillColor") {
-                        attributes.put(field.getName(), field);
-                    }
+                    // TODO výjimka pro fill color pro Line
+                    /*
+                     * // Uložení názvu atributu a jeho hodnoty do HashMap
+                     * // Výjimka pro fillColor u Line
+                     * if (shapeClass != Line.class && field.getName() != "fillColor") {
+                     * attributes.put(field.getName(), field);
+                     * }
+                     */
+                    attributes.put(field.getName(), field);
                 }
 
                 // Přesun na nadřazenou třídu pro získání jejích atributů
@@ -87,33 +83,39 @@ public class AttributeTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
         if (columnIndex == 1) {
-            try {
-                Field field = Shape.class.getDeclaredField((String) getValueAt(rowIndex, 0));
-                // Nastavení přístupnosti atributu, pokud je soukromý
-                field.setAccessible(true);
-                // Nastavení nové hodnoty atributu
-                Object newValue	= null;
-                // Přetypování na správný typ
-                switch (field.getType().getSimpleName()) {
-                    case "int":
+            // Získání třídy objektu
+            Class<?> shapeClass = Singleton.GetInstance().getShapes().get(shapeIndex).getClass();
+            while (shapeClass != null) {
+                try {
+                    Field field = shapeClass.getDeclaredField((String) getValueAt(rowIndex, 0));
+                    // Nastavení přístupnosti atributu, pokud je soukromý
+                    field.setAccessible(true);
+                    // Nastavení nové hodnoty atributu
+                    Object newValue = null;
+                    // Přetypování na správný typ
+                    switch (field.getType().getSimpleName()) {
+                        case "int":
                             newValue = Integer.parseInt((String) value);
-                        break;
-                
-                    case "float":
-                        newValue = Float.valueOf((String) value);
-                        break;
+                            break;
 
-                    case "String":
-                        newValue = (String) value;
-                        break;
+                        case "float":
+                            newValue = Float.valueOf((String) value);
+                            break;
+
+                        case "String":
+                            newValue = (String) value;
+                            break;
+                    }
+                    field.set(Singleton.GetInstance().getShapes().get(shapeIndex), newValue);
+                } catch (Exception e) {
+                    // e.printStackTrace();
                 }
-                field.set(Singleton.GetInstance().getShapes().get(shapeIndex), newValue);
-                // Update
-                fireTableCellUpdated(rowIndex, columnIndex);
-                drawPanel.repaint();
-            } catch (Exception e) {
-                e.printStackTrace();
+                // Přesun na nadřazenou třídu pro získání jejích atributů
+                shapeClass = shapeClass.getSuperclass();
             }
+            // Update
+            fireTableCellUpdated(rowIndex, columnIndex);
+            Singleton.GetInstance().getDrawPanel().repaint();
         }
     }
 

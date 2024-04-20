@@ -33,7 +33,7 @@ public class JDrawPanel extends JPanel {
 
     public JDrawPanel(JEditSplitPane editSplitPane) {
         super();
-        this.backgroundColor = "#FFFFFF";
+        this.backgroundColor = "#ffffff";
         this.backgroundImage = new ImageIcon(getClass().getResource("/transparency.png")).getImage();
         this.useTransparentBackground = defaultUseTransparentBackground;
 
