@@ -38,7 +38,7 @@ public class NewShapeDialog extends JFrame {
         if (shape.getClass() != Line.class) {
             shape.setFillColor(ColorUtils.colorToHex(fillColor));
         }
-        shape.setBorderColor(ColorUtils.colorToHex(borderColor));
+        shape.setStrokeColor(ColorUtils.colorToHex(borderColor));
 
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
@@ -125,7 +125,7 @@ public class NewShapeDialog extends JFrame {
         okButton.addActionListener(e -> {
             // Nastavení atributů
             shape.setFillColor(ColorUtils.colorToHex(fillColor));
-            shape.setBorderColor(ColorUtils.colorToHex(borderColor));
+            shape.setStrokeColor(ColorUtils.colorToHex(borderColor));
             shape.setStrokeWidth(borderWidth);
             // Nastavení tvaru
             Singleton.GetInstance().getDrawPanel().setDrawnShape(shape);

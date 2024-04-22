@@ -5,20 +5,20 @@ import java.awt.Color;
 public abstract class Shape implements IShape {
 
     private int positionX, postitionY;
-    private String borderColor, fillColor;
+    private String strokeColor, fillColor;
     private float strokeWidth;
 
     public Shape(int positionX, int postitionY, String borderColor, String fillColor, float strokeWidth) {
         this.positionX = positionX;
         this.postitionY = postitionY;
-        this.borderColor = borderColor;
-        if (this.borderColor != null) {
-            this.borderColor = this.borderColor.toUpperCase();
+        this.strokeColor = borderColor;
+        if (this.strokeColor != null) {
+            this.strokeColor = this.strokeColor.toUpperCase();
         }
         try {
-            Color.decode(this.borderColor);
+            Color.decode(this.strokeColor);
         } catch (Exception e) {
-            this.borderColor = "#00000";
+            this.strokeColor = "#00000";
             // e.printStackTrace();
         }
         this.fillColor = fillColor;
@@ -49,7 +49,7 @@ public abstract class Shape implements IShape {
     }
 
     public String getborderColor() {
-        return borderColor;
+        return strokeColor;
     }
 
     public String getShapeName() {
@@ -68,8 +68,8 @@ public abstract class Shape implements IShape {
         this.postitionY = postitionY;
     }
 
-    public void setBorderColor(String borderColor) {
-        this.borderColor = borderColor;
+    public void setStrokeColor(String borderColor) {
+        this.strokeColor = borderColor;
     }
 
     public void setFillColor(String fillColor) {
