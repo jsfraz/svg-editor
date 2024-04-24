@@ -25,8 +25,8 @@ public class Canvas {
 
     public Canvas() {
         Dimension size = Singleton.GetInstance().getMaxedWindowSize();
-        width = String.format(width, size.width);
-        height = String.format(height, size.height);
+        width = String.format(width, (int) size.getWidth());
+        height = String.format(height, (int) size.getHeight());
     }
 
     @XmlElementWrapper(name = "g")

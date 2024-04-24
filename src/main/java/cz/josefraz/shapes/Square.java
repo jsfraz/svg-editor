@@ -17,8 +17,8 @@ public class Square extends Shape {
     @XmlAttribute(name="width")
     private int lengthX;
 
-    public Square(int positionX, int positionY, String borderColor, String fillColor, int lengthA, float strokeWidth) {
-        super(positionX, positionY, borderColor, fillColor, strokeWidth);
+    public Square(int positionX, int postitionY, String borderColor, String fillColor, int lengthA, float strokeWidth) {
+        super(positionX, postitionY, borderColor, fillColor, strokeWidth);
         this.lengthX = lengthA;
     }
 
