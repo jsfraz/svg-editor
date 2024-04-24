@@ -12,7 +12,7 @@ public abstract class Shape implements IShape {
     @XmlAttribute(name="x")
     private int positionX;
     @XmlAttribute(name="y")
-    private int postitionY;
+    private int positionY;
     @XmlAttribute(name="stroke")
     private String strokeColor;
     @XmlAttribute(name="fill")
@@ -20,9 +20,9 @@ public abstract class Shape implements IShape {
     @XmlAttribute(name="stroke-width")
     private float strokeWidth;
 
-    public Shape(int positionX, int postitionY, String borderColor, String fillColor, float strokeWidth) {
+    public Shape(int positionX, int positionY, String borderColor, String fillColor, float strokeWidth) {
         this.positionX = positionX;
-        this.postitionY = postitionY;
+        this.positionY = positionY;
         this.strokeColor = borderColor;
         if (this.strokeColor != null) {
             this.strokeColor = this.strokeColor.toUpperCase();
@@ -57,7 +57,7 @@ public abstract class Shape implements IShape {
     }
 
     public int getPositionY() {
-        return postitionY;
+        return positionY;
     }
 
     public String getborderColor() {
@@ -76,8 +76,8 @@ public abstract class Shape implements IShape {
         this.positionX = positionX;
     }
 
-    public void setPositionY(int postitionY) {
-        this.postitionY = postitionY;
+    public void setPositionY(int positionY) {
+        this.positionY = positionY;
     }
 
     public void setStrokeColor(String borderColor) {

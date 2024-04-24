@@ -9,22 +9,41 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "circle")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Circle extends Shape {
 
+    @XmlAttribute(name="cx")
+    private int positionX;
+    @XmlAttribute(name="cy")
+    private int positionY;
     @XmlAttribute(name = "r")
     private int radius;
 
-    public Circle(int positionX, int postitionY, String borderColor, String fillColor, int radius, float strokeWidth) {
-        super(positionX, postitionY, borderColor, fillColor, strokeWidth);
+    public Circle(int positionX, int positionY, String borderColor, String fillColor, int radius, float strokeWidth) {
+        super(positionX, positionY, borderColor, fillColor, strokeWidth);
+        this.positionX = positionX;
+        this.positionY = positionY;
         this.radius = radius;
     }
 
     public Circle() {
         super(0, 0, "", "", 0);
         this.radius = 0;
+    }
+
+    @Override()
+    @XmlTransient()
+    public int getPositionX() {
+        return this.positionX;
+    }
+
+    @Override()
+    @XmlTransient()
+    public int getPositionY() {
+        return this.positionY;
     }
 
     public int getradius() {
@@ -46,8 +65,8 @@ public class Circle extends Shape {
 
     @Override
     public void calculatePositionFromCenter(int mouseX, int mouseY) {
-        setPositionX((int) (mouseX - getradius()));
-        setPositionY((int) (mouseY - getradius()));
+        setPositionX(mouseX - getradius());
+        setPositionY(mouseY - getradius());
     }
 
     @Override

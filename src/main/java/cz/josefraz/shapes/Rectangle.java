@@ -19,9 +19,9 @@ public class Rectangle extends Shape {
     @XmlAttribute(name = "height")
     private int lengthY;
 
-    public Rectangle(int positionX, int postitionY, String borderColor, String fillColor, int lengthA, int lengthB,
+    public Rectangle(int positionX, int positionY, String borderColor, String fillColor, int lengthA, int lengthB,
             float strokeWidth) {
-        super(positionX, postitionY, borderColor, fillColor, strokeWidth);
+        super(positionX, positionY, borderColor, fillColor, strokeWidth);
         this.lengthX = lengthA;
         this.lengthY = lengthB;
     }

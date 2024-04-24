@@ -8,20 +8,27 @@ import java.awt.Point;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlAccessType;
 
 @XmlRootElement(name="ellipse")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Ellipse extends Shape {
 
+    @XmlAttribute(name="cx")
+    private int positionX;
+    @XmlAttribute(name="cy")
+    private int positionY;
     @XmlAttribute(name="rx")
     private int lengthX;
     @XmlAttribute(name="ry")
     private int lengthY;
 
-    public Ellipse(int positionX, int postitionY, String borderColor, String fillColor, int lengthA, int lengthB,
+    public Ellipse(int positionX, int positionY, String borderColor, String fillColor, int lengthA, int lengthB,
             float strokeWidth) {
-        super(positionX, postitionY, borderColor, fillColor, strokeWidth);
+        super(positionX, positionY, borderColor, fillColor, strokeWidth);
+        this.positionX = positionX;
+        this.positionY = positionY;
         this.lengthX = lengthA;
         this.lengthY = lengthB;
     }
@@ -30,6 +37,18 @@ public class Ellipse extends Shape {
         super(0, 0, "", "", 0);
         this.lengthX = 0;
         this.lengthY = 0;
+    }
+
+    @Override()
+    @XmlTransient()
+    public int getPositionX() {
+        return this.positionX;
+    }
+
+    @Override()
+    @XmlTransient()
+    public int getPositionY() {
+        return this.positionY;
     }
 
     public int getLengthX() {

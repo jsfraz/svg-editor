@@ -29,10 +29,11 @@ public class NumberInputDialog extends JDialog {
         this.okButtonText = okButtonText;
         okButton = new JButton(String.format(this.okButtonText + " (%s)", slider.getValue()));
         okButton.addActionListener(e -> {
+            Dimension size = Singleton.GetInstance().getMaxedWindowSize();
             // Vygenerování tvarů
             Singleton.GetInstance()
-                    .addShapes(ShapeUtils.generateRandomShapes(slider.getValue(), Singleton.GetInstance().getDrawPanel().getWidth(),
-                    Singleton.GetInstance().getDrawPanel().getHeight()));
+                    .addShapes(ShapeUtils.generateRandomShapes(slider.getValue(), size.width,
+                            size.height));
             // Refresh
             mainWindow.setEnabled(true);
             Singleton.GetInstance().getDrawPanel().repaint();
