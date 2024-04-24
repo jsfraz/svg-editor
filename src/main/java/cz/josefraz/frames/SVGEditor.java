@@ -21,14 +21,12 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.components.JEditSplitPane;
 import cz.josefraz.shapes.*;
-import cz.josefraz.utils.FileUtils;
 import cz.josefraz.utils.SVGUtils;
 import cz.josefraz.utils.ShapeUtils;
 import cz.josefraz.utils.Singleton;
 
 public class SVGEditor extends JFrame {
 
-    private JMenuItem saveMenuItem;
     private JMenuItem saveAsMenuItem;
     private JMenu codeMenu;
     private JMenu shapeMenu;
@@ -42,6 +40,7 @@ public class SVGEditor extends JFrame {
     public SVGEditor() {
         super("SVG Editor");
 
+        // Barvy JTabbedPanelu
         UIManager.put("TabbedPane.selected", Color.white);
         UIManager.put("TabbedPane.focus", Color.white);
 
@@ -71,7 +70,9 @@ public class SVGEditor extends JFrame {
             }
         });
         fileMenu.add(newFile);
-        JMenuItem openMenuItem = new JMenuItem("Otevřít (SVG)");
+        JMenuItem openMenuItem = new JMenuItem("Otevřít...");
+        // TODO SVG a JSON
+        /*
         openMenuItem.addActionListener(e -> {
             if (mainSplitPane != null) {
                 int option = JOptionPane.showConfirmDialog(null, "Chcete pokračovat bez uložení změn?",
@@ -89,16 +90,12 @@ public class SVGEditor extends JFrame {
                 // TODO dialog otevření
             }
         });
-        saveMenuItem = new JMenuItem("Uložit");
-        saveMenuItem.addActionListener(e -> {
-            // TODO uložení souboru
-        });
+        */
         saveAsMenuItem = new JMenuItem("Uložit jako...");
         saveAsMenuItem.addActionListener(e -> {
             // TODO uložení souboru jako...
         });
         fileMenu.add(openMenuItem);
-        fileMenu.add(saveMenuItem);
         fileMenu.add(saveAsMenuItem);
         shapeMenu = new JMenu("Tvary");
         JMenuItem circleItem = new JMenuItem("Kruh");
@@ -107,22 +104,22 @@ public class SVGEditor extends JFrame {
             new NewShapeDialog(this, new Circle());
         });
         shapeMenu.add(circleItem);
-        JMenuItem rectangleItem = new JMenuItem("TODO Obdélník");
+        JMenuItem rectangleItem = new JMenuItem("Obdélník");
         rectangleItem.addActionListener(e -> {
             setEnabled(false);
             new NewShapeDialog(this, new Rectangle());
         });
         shapeMenu.add(rectangleItem);
-        JMenuItem squareItem = new JMenuItem("TODO Čtverec");
+        JMenuItem squareItem = new JMenuItem("Čtverec");
         squareItem.addActionListener(e -> {
             setEnabled(false);
             new NewShapeDialog(this, new Square());
         });
         shapeMenu.add(squareItem);
-        JMenuItem ovalItem = new JMenuItem("Ovál");
+        JMenuItem ovalItem = new JMenuItem("Elipsa");
         ovalItem.addActionListener(e -> {
             setEnabled(false);
-            new NewShapeDialog(this, new Oval());
+            new NewShapeDialog(this, new Ellipse());
         });
         shapeMenu.add(ovalItem);
         JMenuItem lineItem = new JMenuItem("TODO Čára");
@@ -219,6 +216,8 @@ public class SVGEditor extends JFrame {
         setMinimumSize(new Dimension(1024, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+
+        Singleton.GetInstance().setMaxedWindowSize(getSize());
     }
 
     public JEditSplitPane getEditSplitPane() {
@@ -229,13 +228,11 @@ public class SVGEditor extends JFrame {
         // Kód SVG
         this.codeArea = new RSyntaxTextArea();
         codeArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
-        // TODO odstranit ukázku kódu
-        this.codeArea.setText(FileUtils.readTextFile("test.svg"));
         RTextScrollPane codeAreaScroll = new RTextScrollPane(codeArea);
         // Pravý JSplitPanel pro editaci
         this.editSplitPane = new JEditSplitPane();
         // Inicializace DrawPanelu, přidání tvarů
-        Singleton.GetInstance().setDrawPanel(new JDrawPanel(editSplitPane));
+        Singleton.GetInstance().setDrawPanel(new JDrawPanel(editSplitPane, codeArea));
         // Vytvoření a konfigurace TabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Kód", codeAreaScroll);
@@ -251,7 +248,6 @@ public class SVGEditor extends JFrame {
     }
 
     private void enableDisableMenuButtons(boolean enable) {
-        saveMenuItem.setEnabled(enable);
         saveAsMenuItem.setEnabled(enable);
         codeMenu.setEnabled(enable);
         shapeMenu.setEnabled(enable);

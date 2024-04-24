@@ -15,8 +15,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+
+import cz.josefraz.shapes.Canvas;
 import cz.josefraz.shapes.Shape;
 import cz.josefraz.utils.Singleton;
+import cz.josefraz.utils.XMLUtils;
 
 public class JDrawPanel extends JPanel {
 
@@ -31,11 +35,14 @@ public class JDrawPanel extends JPanel {
     private Shape drawnShape = null;
     private boolean drawing = false;
 
-    public JDrawPanel(JEditSplitPane editSplitPane) {
+    private RSyntaxTextArea codeArea;
+
+    public JDrawPanel(JEditSplitPane editSplitPane, RSyntaxTextArea codeArea) {
         super();
         this.backgroundColor = "#ffffff";
         this.backgroundImage = new ImageIcon(getClass().getResource("/transparency.png")).getImage();
         this.useTransparentBackground = defaultUseTransparentBackground;
+        this.codeArea = codeArea;
 
         /*
          * // Přidání random tvaru při kliknutí
@@ -101,6 +108,8 @@ public class JDrawPanel extends JPanel {
                 }
             }
         });
+
+        codeArea.setText(XMLUtils.getXml(Canvas.getImage(Singleton.GetInstance().getShapes())));
     }
 
     // Nastavení "průhledné" na pozadí
@@ -152,6 +161,8 @@ public class JDrawPanel extends JPanel {
         }
 
         g2d.dispose();
+
+        codeArea.setText(XMLUtils.getXml(Canvas.getImage(Singleton.GetInstance().getShapes())));
     }
 
     // Nastavení kresleného tvaru

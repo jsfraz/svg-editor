@@ -24,7 +24,7 @@ public class ShapeUtils {
                     randomShapes.add(createRandomSquare(sizeX, sizeY));
                     break;
                 case 3:
-                    randomShapes.add(createRandomOval(sizeX, sizeY));
+                    randomShapes.add(createRandomEllipse(sizeX, sizeY));
                     break;
                 case 4:
                     randomShapes.add(createRandomLine(sizeX, sizeY));
@@ -50,7 +50,7 @@ public class ShapeUtils {
                 shape = createRandomSquare(sizeX, sizeY);
                 break;
             case 3:
-                shape = createRandomOval(sizeX, sizeY);
+                shape = createRandomEllipse(sizeX, sizeY);
                 break;
             case 4:
                 shape = createRandomLine(sizeX, sizeY);
@@ -100,7 +100,7 @@ public class ShapeUtils {
         return new Square(x, y, borderColor, fillColor, side, strokeWidth);
     }
 
-    public static Oval createRandomOval(int sizeX, int sizeY) {
+    public static Ellipse createRandomEllipse(int sizeX, int sizeY) {
         Random random = new Random();
         int width = random.nextInt(100) + 1;
         int height = random.nextInt(100) + 1;
@@ -110,7 +110,7 @@ public class ShapeUtils {
         String borderColor = generateRandomColor();
         float strokeWidth = random.nextFloat() * 10;
 
-        return new Oval(x, y, borderColor, fillColor, width, height, strokeWidth);
+        return new Ellipse(x, y, borderColor, fillColor, width, height, strokeWidth);
     }
 
     public static Line createRandomLine(int sizeX, int sizeY) {

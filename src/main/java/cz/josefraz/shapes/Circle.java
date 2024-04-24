@@ -5,8 +5,16 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "circle")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Circle extends Shape {
 
+    @XmlAttribute(name = "r")
     private int radius;
 
     public Circle(int positionX, int postitionY, String borderColor, String fillColor, int radius, float strokeWidth) {
@@ -53,5 +61,4 @@ public class Circle extends Shape {
         setPositionX(start.x < end.x ? start.x : start.x - getradius() * 2);
         setPositionY(start.y < end.y ? start.y : start.y - getradius() * 2);
     }
-
 }

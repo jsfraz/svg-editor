@@ -2,10 +2,22 @@ package cz.josefraz.shapes;
 
 import java.awt.Color;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class Shape implements IShape {
 
-    private int positionX, postitionY;
-    private String strokeColor, fillColor;
+    @XmlAttribute(name="x")
+    private int positionX;
+    @XmlAttribute(name="y")
+    private int postitionY;
+    @XmlAttribute(name="stroke")
+    private String strokeColor;
+    @XmlAttribute(name="fill")
+    private String fillColor;
+    @XmlAttribute(name="stroke-width")
     private float strokeWidth;
 
     public Shape(int positionX, int postitionY, String borderColor, String fillColor, float strokeWidth) {

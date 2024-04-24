@@ -1,5 +1,6 @@
 package cz.josefraz.utils;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import cz.josefraz.components.JDrawPanel;
@@ -9,6 +10,7 @@ public class Singleton {
     private static Singleton instance;
     private ArrayList<Shape> shapes;
     private JDrawPanel drawPanel;
+    private Dimension maxedWindowSize;
 
     private Singleton() {
         this.shapes = new ArrayList<>();
@@ -43,5 +45,13 @@ public class Singleton {
 
     public void setDrawPanel(JDrawPanel drawPanel) {
         this.drawPanel = drawPanel;
+    }
+
+    public Dimension getMaxedWindowSize() {
+        return maxedWindowSize;
+    }
+
+    public void setMaxedWindowSize(Dimension maxedWindowSize) {
+        this.maxedWindowSize = maxedWindowSize;
     }
 }
