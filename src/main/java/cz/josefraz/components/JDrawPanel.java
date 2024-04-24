@@ -1,6 +1,5 @@
 package cz.josefraz.components;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -24,11 +23,7 @@ import cz.josefraz.utils.XMLUtils;
 
 public class JDrawPanel extends JPanel {
 
-    public static final boolean defaultUseTransparentBackground = true;
-
-    private String backgroundColor;
     private Image backgroundImage;
-    private boolean useTransparentBackground;
 
     private Point startPoint;
     private Point endPoint;
@@ -39,9 +34,7 @@ public class JDrawPanel extends JPanel {
 
     public JDrawPanel(JEditSplitPane editSplitPane, RSyntaxTextArea codeArea) {
         super();
-        this.backgroundColor = "#ffffff";
         this.backgroundImage = new ImageIcon(getClass().getResource("/transparency.png")).getImage();
-        this.useTransparentBackground = defaultUseTransparentBackground;
         this.codeArea = codeArea;
 
         /*
@@ -112,19 +105,6 @@ public class JDrawPanel extends JPanel {
         codeArea.setText(XMLUtils.getXml(Canvas.getImage(Singleton.GetInstance().getShapes())));
     }
 
-    // Nastavení "průhledné" na pozadí
-    public void setTransparentBackground() {
-        useTransparentBackground = true;
-        repaint();
-    }
-
-    // Nastavení barvy pozadí z hex stringu
-    public void setBackgroundColor(String hexColor) {
-        useTransparentBackground = false;
-        backgroundColor = hexColor;
-        repaint();
-    }
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -134,20 +114,16 @@ public class JDrawPanel extends JPanel {
         // Zapnutí antialiasingu
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Průhledné pozadí nebo barva
-        if (useTransparentBackground) {
-            if (backgroundImage != null) {
-                // Opakující se obrázek na pozadí
-                int width = getWidth();
-                int height = getHeight();
-                for (int x = 0; x < width; x += backgroundImage.getWidth(this)) {
-                    for (int y = 0; y < height; y += backgroundImage.getHeight(this)) {
-                        g.drawImage(backgroundImage, x, y, this);
-                    }
+        // "Průhledné" pozadí
+        if (backgroundImage != null) {
+            // Opakující se obrázek na pozadí
+            int width = getWidth();
+            int height = getHeight();
+            for (int x = 0; x < width; x += backgroundImage.getWidth(this)) {
+                for (int y = 0; y < height; y += backgroundImage.getHeight(this)) {
+                    g.drawImage(backgroundImage, x, y, this);
                 }
             }
-        } else {
-            setBackground(Color.decode(backgroundColor));
         }
 
         // Vykreslování tvarů

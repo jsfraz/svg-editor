@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
-import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,9 +19,12 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.components.JEditSplitPane;
-import cz.josefraz.shapes.*;
+import cz.josefraz.shapes.Circle;
+import cz.josefraz.shapes.Ellipse;
+import cz.josefraz.shapes.Line;
+import cz.josefraz.shapes.Rectangle;
+import cz.josefraz.shapes.Square;
 import cz.josefraz.utils.SVGUtils;
-import cz.josefraz.utils.ShapeUtils;
 import cz.josefraz.utils.Singleton;
 
 public class SVGEditor extends JFrame {
@@ -31,7 +33,6 @@ public class SVGEditor extends JFrame {
     private JMenu codeMenu;
     private JMenu shapeMenu;
     private JMenu toolMenu;
-    private JMenu backgroundMenu;
 
     private RSyntaxTextArea codeArea;
     private JEditSplitPane editSplitPane;
@@ -180,32 +181,10 @@ public class SVGEditor extends JFrame {
             editSplitPane.refreshTables();
         });
         toolMenu.add(clear);
-        backgroundMenu = new JMenu("Pozadí");
-        JMenuItem transparentBackground = new JMenuItem("Průhledné");
-        transparentBackground.addActionListener(e -> {
-            Singleton.GetInstance().getDrawPanel().setTransparentBackground();
-        });
-        backgroundMenu.add(transparentBackground);
-        JMenuItem chooseBackgroundColor = new JMenuItem("Vybrat...");
-        chooseBackgroundColor.addActionListener(e -> {
-            // Zobrazit dialog pro výběr barvy
-            Color selectedColor = JColorChooser.showDialog(this, "Barva pozadí", Color.WHITE, false);
-            if (selectedColor != null) {
-                Singleton.GetInstance().getDrawPanel().setBackgroundColor(String.format("#%02x%02x%02x", selectedColor.getRed(),
-                        selectedColor.getGreen(), selectedColor.getBlue()));
-            }
-        });
-        backgroundMenu.add(chooseBackgroundColor);
-        JMenuItem randomBackground = new JMenuItem("Náhodné");
-        randomBackground.addActionListener(e -> {
-            Singleton.GetInstance().getDrawPanel().setBackgroundColor(ShapeUtils.generateRandomColor());
-        });
-        backgroundMenu.add(randomBackground);
         menuBar.add(fileMenu);
         menuBar.add(codeMenu);
         menuBar.add(shapeMenu);
         menuBar.add(toolMenu);
-        menuBar.add(backgroundMenu);
         setJMenuBar(menuBar);
 
         // Zakázání menu tlačítek
@@ -252,6 +231,5 @@ public class SVGEditor extends JFrame {
         codeMenu.setEnabled(enable);
         shapeMenu.setEnabled(enable);
         toolMenu.setEnabled(enable);
-        backgroundMenu.setEnabled(enable);
     }
 }
