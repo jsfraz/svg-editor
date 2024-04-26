@@ -1,6 +1,7 @@
 package cz.josefraz.frames;
 
 import javax.swing.*;
+import javax.xml.bind.JAXBException;
 
 import cz.josefraz.utils.*;
 
@@ -31,14 +32,18 @@ public class NumberInputDialog extends JDialog {
         okButton = new JButton(String.format(this.okButtonText + " (%s)", slider.getValue()));
         okButton.addActionListener(e -> {
             // Vygenerování tvarů
-            Singleton.GetInstance()
-                    .addShapes(ShapeUtils.generateRandomShapes(slider.getValue(), Singleton.GetInstance().getDrawPanel().getWidth(),
-                    Singleton.GetInstance().getDrawPanel().getHeight()));
+            Singleton.getInstance()
+                    .addShapes(ShapeUtils.generateRandomShapes(slider.getValue(), Singleton.getInstance().getDrawPanel().getWidth(),
+                    Singleton.getInstance().getDrawPanel().getHeight()));
             // Refresh
             mainWindow.setEnabled(true);
-            Singleton.GetInstance().getDrawPanel().repaint();
+            Singleton.getInstance().getDrawPanel().repaint();
             mainWindow.getEditSplitPane().refreshTables();
-            Singleton.GetInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getImage()));
+            try {
+                Singleton.getInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getCanvas()));
+            } catch (JAXBException e1) {
+                e1.printStackTrace();
+            }
             dispose();
         });
 

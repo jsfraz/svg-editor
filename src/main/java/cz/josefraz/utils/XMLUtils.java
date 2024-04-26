@@ -12,32 +12,24 @@ import cz.josefraz.shapes.Canvas;
 
 public class XMLUtils {
 
-    public static String getXml(Canvas image) {
+    public static String getXml(Canvas image) throws JAXBException {
         JAXBContext ctx = null;
-        try {
-            ctx = JAXBContext.newInstance(Canvas.class);
-            Marshaller marshaller = ctx.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            // Nastavení, aby se nevytvořila XML hlavička
-            marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-            StringWriter sw = new StringWriter();
-            marshaller.marshal(image, sw);
-            String xmlString = sw.toString();
-            return xmlString;
-        } catch (JAXBException e) {
-            throw new RuntimeException(e);
-        }
+        ctx = JAXBContext.newInstance(Canvas.class);
+        Marshaller marshaller = ctx.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        // Nastavení, aby se nevytvořila XML hlavička
+        marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+        StringWriter sw = new StringWriter();
+        marshaller.marshal(image, sw);
+        String xmlString = sw.toString();
+        return xmlString;
     }
 
-    public static Canvas getImage(String xml) {
-        try {
-            JAXBContext ctx = JAXBContext.newInstance(Canvas.class);
-            Unmarshaller unmarshaller = ctx.createUnmarshaller();
-            StringReader sr = new StringReader(xml);
-            Canvas svgImage = (Canvas) unmarshaller.unmarshal(sr);
-            return svgImage;
-        } catch (JAXBException e) {
-            throw new RuntimeException(e);
-        }
+    public static Canvas getImage(String xml) throws JAXBException {
+        JAXBContext ctx = JAXBContext.newInstance(Canvas.class);
+        Unmarshaller unmarshaller = ctx.createUnmarshaller();
+        StringReader sr = new StringReader(xml);
+        Canvas svgImage = (Canvas) unmarshaller.unmarshal(sr);
+        return svgImage;
     }
 }

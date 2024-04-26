@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.xml.bind.JAXBException;
 
 import cz.josefraz.shapes.Canvas;
 import cz.josefraz.tableModels.AttributeTableModel;
@@ -75,13 +76,17 @@ public class JEditSplitPane extends JSplitPane {
                     if (selectedRows.length > 0) { // Pokud jsou vybrány nějaké řádky
                         // Projít vybrané řádky v opačném pořadí (abychom se vyhnuli problémům s indexy)
                         for (int i = selectedRows.length - 1; i >= 0; i--) {
-                            Singleton.GetInstance().removeShapeByIndex(selectedRows[i]);
+                            Singleton.getInstance().removeShapeByIndex(selectedRows[i]);
                         }
                         shapeModel.fireTableDataChanged();
                         attributeModel.setAttributes(-1);
                         attributeModel.fireTableDataChanged();
-                        Singleton.GetInstance().getDrawPanel().repaint();
-                        Singleton.getInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getImage()));
+                        Singleton.getInstance().getDrawPanel().repaint();
+                        try {
+                            Singleton.getInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getCanvas()));
+                        } catch (JAXBException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 }
             }

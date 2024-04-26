@@ -12,6 +12,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.xml.bind.JAXBException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -59,7 +62,7 @@ public class SVGEditor extends JFrame {
                 int option = JOptionPane.showConfirmDialog(null, "Chcete pokračovat bez uložení změn?",
                         "Data budou ztracena", JOptionPane.YES_NO_OPTION);
                 if (option == JOptionPane.YES_OPTION) {
-                    Singleton.GetInstance().setShapes(new ArrayList<>());
+                    Singleton.getInstance().setShapes(new ArrayList<>());
                     remove(mainSplitPane);
                     mainSplitPane = null;
                     enableDisableMenuButtons(false);
@@ -75,24 +78,25 @@ public class SVGEditor extends JFrame {
         JMenuItem openMenuItem = new JMenuItem("Otevřít...");
         // TODO SVG a JSON
         /*
-        openMenuItem.addActionListener(e -> {
-            if (mainSplitPane != null) {
-                int option = JOptionPane.showConfirmDialog(null, "Chcete pokračovat bez uložení změn?",
-                        "Data budou ztracena", JOptionPane.YES_NO_OPTION);
-                if (option == JOptionPane.YES_OPTION) {
-                    Singleton.GetInstance().setShapes(new ArrayList<>());
-                    remove(mainSplitPane);
-                    mainSplitPane = null;
-                    enableDisableMenuButtons(false);
-                    revalidate();
-                    repaint();
-                    // TODO dialog otevření
-                }
-            } else {
-                // TODO dialog otevření
-            }
-        });
-        */
+         * openMenuItem.addActionListener(e -> {
+         * if (mainSplitPane != null) {
+         * int option = JOptionPane.showConfirmDialog(null,
+         * "Chcete pokračovat bez uložení změn?",
+         * "Data budou ztracena", JOptionPane.YES_NO_OPTION);
+         * if (option == JOptionPane.YES_OPTION) {
+         * Singleton.getInstance().setShapes(new ArrayList<>());
+         * remove(mainSplitPane);
+         * mainSplitPane = null;
+         * enableDisableMenuButtons(false);
+         * revalidate();
+         * repaint();
+         * // TODO dialog otevření
+         * }
+         * } else {
+         * // TODO dialog otevření
+         * }
+         * });
+         */
         saveAsMenuItem = new JMenuItem("Uložit jako...");
         saveAsMenuItem.addActionListener(e -> {
             // TODO uložení souboru jako...
@@ -135,11 +139,13 @@ public class SVGEditor extends JFrame {
         formatCode.addActionListener(e -> {
             // Formátování
             try {
-                String beautified = SVGUtils.beautifySVG(SVGUtils.optimizeSVG(Singleton.getInstance().getCodeArea().getText()));
+                String beautified = SVGUtils
+                        .beautifySVG(SVGUtils.optimizeSVG(Singleton.getInstance().getCodeArea().getText()));
                 Singleton.getInstance().getCodeArea().setText(beautified);
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Formátování SVG", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Formátování SVG",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
         codeMenu.add(formatCode);
@@ -148,10 +154,12 @@ public class SVGEditor extends JFrame {
             // Optimalizace
             try {
                 SVGUtils.parseSVG(Singleton.getInstance().getCodeArea().getText());
-                Singleton.getInstance().getCodeArea().setText(SVGUtils.optimizeSVG(Singleton.getInstance().getCodeArea().getText()));
+                Singleton.getInstance().getCodeArea()
+                        .setText(SVGUtils.optimizeSVG(Singleton.getInstance().getCodeArea().getText()));
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Optimalizace SVG", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Optimalizace SVG",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
         codeMenu.add(optimalizeCode);
@@ -160,10 +168,12 @@ public class SVGEditor extends JFrame {
             // Validace
             try {
                 SVGUtils.parseSVG(Singleton.getInstance().getCodeArea().getText());
-                JOptionPane.showMessageDialog(null, "SVG kód je validní.", "Validace SVG", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "SVG kód je validní.", "Validace SVG",
+                        JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Validace SVG", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Validace SVG",
+                        JOptionPane.ERROR_MESSAGE);
             }
         });
         codeMenu.add(validateCode);
@@ -176,11 +186,15 @@ public class SVGEditor extends JFrame {
         toolMenu.add(randomShapes);
         JMenuItem clear = new JMenuItem("Vyčistit plátno");
         clear.addActionListener(e -> {
-            Singleton.GetInstance().setShapes(new ArrayList<>());
+            Singleton.getInstance().setShapes(new ArrayList<>());
             // Refresh
-            Singleton.GetInstance().getDrawPanel().repaint();
+            Singleton.getInstance().getDrawPanel().repaint();
             editSplitPane.refreshTables();
-            Singleton.GetInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getImage()));
+            try {
+                Singleton.getInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getCanvas()));
+            } catch (JAXBException e1) {
+                e1.printStackTrace();
+            }
         });
         toolMenu.add(clear);
         menuBar.add(fileMenu);
@@ -198,7 +212,7 @@ public class SVGEditor extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
-        Singleton.GetInstance().setMaxedWindowSize(getSize());
+        Singleton.getInstance().setMaxedWindowSize(getSize());
     }
 
     public JEditSplitPane getEditSplitPane() {
@@ -208,17 +222,43 @@ public class SVGEditor extends JFrame {
     private void addMainSplitPane() {
         // Kód SVG
         RSyntaxTextArea codeArea = new RSyntaxTextArea();
+        // Document listener pro kód
+        DocumentListener documentListener = new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if (Singleton.getInstance().getListen()) {
+                    try {
+                        Canvas canavs = XMLUtils.getImage(codeArea.getText());
+                        Singleton.getInstance().setShapes(canavs.getShapes());
+                        editSplitPane.refreshTables();
+                        Singleton.getInstance().getDrawPanel().repaint();
+                    } catch (JAXBException e1) {
+                        // e1.printStackTrace();
+                    }
+                }
+            }
+        };
+        codeArea.getDocument().addDocumentListener(documentListener);
         codeArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
         RTextScrollPane codeAreaScroll = new RTextScrollPane(codeArea);
         Singleton.getInstance().setCodeArea(codeArea);
         // Pravý JSplitPanel pro editaci
         this.editSplitPane = new JEditSplitPane();
         // Inicializace DrawPanelu, přidání tvarů
-        Singleton.GetInstance().setDrawPanel(new JDrawPanel(editSplitPane, Singleton.getInstance().getCodeArea()));
+        Singleton.getInstance().setDrawPanel(new JDrawPanel(editSplitPane));
         // Vytvoření a konfigurace TabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Kód", codeAreaScroll);
-        tabbedPane.addTab("Náhled", Singleton.GetInstance().getDrawPanel());
+        tabbedPane.addTab("Náhled", Singleton.getInstance().getDrawPanel());
         // Vytvoření SplitPane s rozdělením
         this.mainSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tabbedPane, this.editSplitPane);
         this.mainSplitPane.setResizeWeight(0.9); // Rozdělení 90% pro drawPanel, 10% pro rightSplitPane
@@ -227,6 +267,8 @@ public class SVGEditor extends JFrame {
         add(this.mainSplitPane);
         revalidate();
         repaint();
+
+        Singleton.getInstance().setListen(true);
     }
 
     private void enableDisableMenuButtons(boolean enable) {

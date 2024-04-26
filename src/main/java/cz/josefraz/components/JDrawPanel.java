@@ -13,8 +13,7 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import javax.xml.bind.JAXBException;
 
 import cz.josefraz.shapes.Canvas;
 import cz.josefraz.shapes.Shape;
@@ -30,12 +29,9 @@ public class JDrawPanel extends JPanel {
     private Shape drawnShape = null;
     private boolean drawing = false;
 
-    private RSyntaxTextArea codeArea;
-
-    public JDrawPanel(JEditSplitPane editSplitPane, RSyntaxTextArea codeArea) {
+    public JDrawPanel(JEditSplitPane editSplitPane) {
         super();
         this.backgroundImage = new ImageIcon(getClass().getResource("/transparency.png")).getImage();
-        this.codeArea = codeArea;
 
         /*
          * // Přidání random tvaru při kliknutí
@@ -45,7 +41,7 @@ public class JDrawPanel extends JPanel {
          * public void mouseClicked(MouseEvent e) {
          * Shape randomShape = ShapeUtils.generateRandomShape();
          * randomShape.calculatePositionFromCenter(e.getX(), e.getY());
-         * Singleton.GetInstance().addShape(randomShape);
+         * Singleton.getInstance().addShape(randomShape);
          * repaint();
          * editSplitPane.refreshTables();
          * }
@@ -82,7 +78,7 @@ public class JDrawPanel extends JPanel {
                         JOptionPane.showMessageDialog(null, "Konečná souřadnice se rovná počáteční.",
                                 "Nelze nakreslit tvar", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        Singleton.GetInstance().addShape(drawnShape);
+                        Singleton.getInstance().addShape(drawnShape);
                         editSplitPane.refreshTables();
                         repaint();
                     }
@@ -102,7 +98,11 @@ public class JDrawPanel extends JPanel {
             }
         });
 
-        codeArea.setText(XMLUtils.getXml(Canvas.getImage()));
+        try {
+            Singleton.getInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getCanvas()));
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -127,7 +127,7 @@ public class JDrawPanel extends JPanel {
         }
 
         // Vykreslování tvarů
-        for (Shape shape : Singleton.GetInstance().getShapes()) {
+        for (Shape shape : Singleton.getInstance().getShapes()) {
             shape.draw(g2d);
         }
 
@@ -137,8 +137,6 @@ public class JDrawPanel extends JPanel {
         }
 
         g2d.dispose();
-
-        codeArea.setText(XMLUtils.getXml(Canvas.getImage()));
     }
 
     // Nastavení kresleného tvaru
