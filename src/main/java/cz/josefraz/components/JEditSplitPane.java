@@ -12,7 +12,6 @@ import javax.swing.event.ListSelectionListener;
 import cz.josefraz.shapes.Canvas;
 import cz.josefraz.tableModels.AttributeTableModel;
 import cz.josefraz.tableModels.ShapeTableModel;
-import cz.josefraz.utils.SVGUtils;
 import cz.josefraz.utils.Singleton;
 import cz.josefraz.utils.XMLUtils;
 

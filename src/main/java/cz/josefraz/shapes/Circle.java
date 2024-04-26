@@ -17,8 +17,8 @@ public class Circle extends Shape {
     @XmlAttribute(name = "r")
     private int radius;
 
-    public Circle(int positionX, int postitionY, String borderColor, String fillColor, int radius, float strokeWidth) {
-        super(positionX, postitionY, borderColor, fillColor, strokeWidth);
+    public Circle(int positionX, int positionY, String borderColor, String fillColor, int radius, float strokeWidth) {
+        super(positionX, positionY, borderColor, fillColor, strokeWidth);
         this.radius = radius;
     }
 
