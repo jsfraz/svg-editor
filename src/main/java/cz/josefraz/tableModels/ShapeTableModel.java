@@ -14,7 +14,7 @@ public class ShapeTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return Singleton.GetInstance().getShapes().size();
+        return Singleton.getInstance().getShapes().size();
     }
 
     @Override
@@ -24,7 +24,7 @@ public class ShapeTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Shape shape = Singleton.GetInstance().getShapes().get(rowIndex);
+        Shape shape = Singleton.getInstance().getShapes().get(rowIndex);
         switch (columnIndex) {
             case 0:
                 return String.format("%s%s", shape.getShapeName().toLowerCase(), getShapeNumber(rowIndex, shape.getClass())); // Název tvaru
@@ -37,7 +37,7 @@ public class ShapeTableModel extends AbstractTableModel {
     private int getShapeNumber(int rowIndex, Class<?> shapeClass) {
         int number = 0;
         for (int i = 0; i < rowIndex; i++) {
-            if (Singleton.GetInstance().getShapes().get(i).getClass().equals(shapeClass)) {
+            if (Singleton.getInstance().getShapes().get(i).getClass().equals(shapeClass)) {
                 number++;
             }
         }

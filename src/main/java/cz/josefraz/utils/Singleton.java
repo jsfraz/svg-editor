@@ -14,12 +14,13 @@ public class Singleton {
     private JDrawPanel drawPanel;
     private Dimension maxedWindowSize;
     private RSyntaxTextArea codeArea;
+    private boolean listen;
 
     private Singleton() {
         this.shapes = new ArrayList<>();
     }
     
-    public static Singleton GetInstance() {
+    public static Singleton getInstance() {
         if (instance == null) {
             instance = new Singleton();
         }
@@ -62,15 +63,19 @@ public class Singleton {
         this.shapes.remove(index);
     }
 
-    public static Singleton getInstance() {
-        return instance;
-    }
-
     public RSyntaxTextArea getCodeArea() {
         return codeArea;
     }
 
     public void setCodeArea(RSyntaxTextArea codeArea) {
         this.codeArea = codeArea;
+    }
+
+    public boolean getListen() {
+        return listen;
+    }
+
+    public void setListen(boolean listen) {
+        this.listen = listen;
     }
 }

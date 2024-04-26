@@ -22,7 +22,7 @@ public class AttributeTableModel extends AbstractTableModel {
 
         if (shapeIndex != -1) {
             // Získání třídy objektu
-            Class<?> shapeClass = Singleton.GetInstance().getShapes().get(shapeIndex).getClass();
+            Class<?> shapeClass = Singleton.getInstance().getShapes().get(shapeIndex).getClass();
 
             // Získání všech atributů třídy včetně zděděných atributů
             while (shapeClass != null) {
@@ -40,7 +40,7 @@ public class AttributeTableModel extends AbstractTableModel {
             }
 
             // Výjimka fillColor pro Line
-            if (Singleton.GetInstance().getShapes().get(shapeIndex).getClass() == Line.class) {
+            if (Singleton.getInstance().getShapes().get(shapeIndex).getClass() == Line.class) {
                 attributes.remove("fillColor");
             }
         }
@@ -68,7 +68,7 @@ public class AttributeTableModel extends AbstractTableModel {
                 return entry.getKey(); // Jméno atributu
             case 1:
                 try {
-                    return entry.getValue().get(Singleton.GetInstance().getShapes().get(shapeIndex));
+                    return entry.getValue().get(Singleton.getInstance().getShapes().get(shapeIndex));
                 } catch (IllegalArgumentException | IllegalAccessException e) {
                     e.printStackTrace();
                 } // Hodnota atributu
@@ -81,7 +81,7 @@ public class AttributeTableModel extends AbstractTableModel {
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
         if (columnIndex == 1) {
             // Získání třídy objektu
-            Class<?> shapeClass = Singleton.GetInstance().getShapes().get(shapeIndex).getClass();
+            Class<?> shapeClass = Singleton.getInstance().getShapes().get(shapeIndex).getClass();
             while (shapeClass != null) {
                 try {
                     Field field = shapeClass.getDeclaredField((String) getValueAt(rowIndex, 0));
@@ -104,7 +104,7 @@ public class AttributeTableModel extends AbstractTableModel {
                             newValue = ((String) value).toUpperCase();
                             break;
                     }
-                    field.set(Singleton.GetInstance().getShapes().get(shapeIndex), newValue);
+                    field.set(Singleton.getInstance().getShapes().get(shapeIndex), newValue);
                 } catch (Exception e) {
                     // e.printStackTrace();
                 }
@@ -113,7 +113,7 @@ public class AttributeTableModel extends AbstractTableModel {
             }
             // Update
             fireTableCellUpdated(rowIndex, columnIndex);
-            Singleton.GetInstance().getDrawPanel().repaint();
+            Singleton.getInstance().getDrawPanel().repaint();
         }
     }
 

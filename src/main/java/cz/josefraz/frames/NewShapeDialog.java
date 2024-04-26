@@ -128,7 +128,7 @@ public class NewShapeDialog extends JFrame {
             shape.setStrokeColor(ColorUtils.colorToHex(borderColor));
             shape.setStrokeWidth(borderWidth);
             // Nastavení tvaru
-            Singleton.GetInstance().getDrawPanel().setDrawnShape(shape);
+            Singleton.getInstance().getDrawPanel().setDrawnShape(shape);
             mainWindow.setEnabled(true);
             dispose();
         });
