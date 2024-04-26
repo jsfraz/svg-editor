@@ -237,8 +237,8 @@ public class SVGEditor extends JFrame {
             public void changedUpdate(DocumentEvent e) {
                 if (Singleton.getInstance().getListen()) {
                     try {
-                        Canvas canavs = XMLUtils.getImage(codeArea.getText());
-                        Singleton.getInstance().setShapes(canavs.getShapes());
+                        Canvas canvas = XMLUtils.getImage(codeArea.getText());
+                        Singleton.getInstance().setShapes(canvas.getShapes());
                         editSplitPane.refreshTables();
                         Singleton.getInstance().getDrawPanel().repaint();
                     } catch (JAXBException e1) {
