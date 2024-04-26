@@ -54,4 +54,8 @@ public class Singleton {
     public void setMaxedWindowSize(Dimension maxedWindowSize) {
         this.maxedWindowSize = maxedWindowSize;
     }
+
+    public void removeShapeByIndex(int index) {
+        this.shapes.remove(index);
+    }
 }

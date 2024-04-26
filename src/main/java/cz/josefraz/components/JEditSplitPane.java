@@ -11,8 +11,11 @@ import javax.swing.event.ListSelectionListener;
 
 import cz.josefraz.tableModels.AttributeTableModel;
 import cz.josefraz.tableModels.ShapeTableModel;
+import cz.josefraz.utils.Singleton;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class JEditSplitPane extends JSplitPane {
 
@@ -57,6 +60,26 @@ public class JEditSplitPane extends JSplitPane {
                     attributeModel.fireTableDataChanged();
                 } else {
                     attributeModel.setAttributes(-1);
+                }
+            }
+        });
+        // Přidání posluchače klávesnice
+        this.shapeTable.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int key = e.getKeyCode();
+                if (key == KeyEvent.VK_DELETE) {
+                    int[] selectedRows = shapeTable.getSelectedRows();
+                    if (selectedRows.length > 0) { // Pokud jsou vybrány nějaké řádky
+                        // Projít vybrané řádky v opačném pořadí (abychom se vyhnuli problémům s indexy)
+                        for (int i = selectedRows.length - 1; i >= 0; i--) {
+                            Singleton.GetInstance().removeShapeByIndex(selectedRows[i]);
+                        }
+                        shapeModel.fireTableDataChanged();
+                        attributeModel.setAttributes(-1);
+                        attributeModel.fireTableDataChanged();
+                        Singleton.GetInstance().getDrawPanel().repaint();
+                    }
                 }
             }
         });
