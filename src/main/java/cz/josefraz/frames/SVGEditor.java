@@ -19,6 +19,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.components.JEditSplitPane;
+import cz.josefraz.shapes.Canvas;
 import cz.josefraz.shapes.Circle;
 import cz.josefraz.shapes.Ellipse;
 import cz.josefraz.shapes.Line;
@@ -26,6 +27,7 @@ import cz.josefraz.shapes.Rectangle;
 import cz.josefraz.shapes.Square;
 import cz.josefraz.utils.SVGUtils;
 import cz.josefraz.utils.Singleton;
+import cz.josefraz.utils.XMLUtils;
 
 public class SVGEditor extends JFrame {
 
@@ -34,7 +36,6 @@ public class SVGEditor extends JFrame {
     private JMenu shapeMenu;
     private JMenu toolMenu;
 
-    private RSyntaxTextArea codeArea;
     private JEditSplitPane editSplitPane;
     private JSplitPane mainSplitPane;
 
@@ -134,8 +135,8 @@ public class SVGEditor extends JFrame {
         formatCode.addActionListener(e -> {
             // Formátování
             try {
-                String beautified = SVGUtils.beautifySVG(SVGUtils.optimizeSVG(codeArea.getText()));
-                codeArea.setText(beautified);
+                String beautified = SVGUtils.beautifySVG(SVGUtils.optimizeSVG(Singleton.getInstance().getCodeArea().getText()));
+                Singleton.getInstance().getCodeArea().setText(beautified);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Formátování SVG", JOptionPane.ERROR_MESSAGE);
@@ -146,8 +147,8 @@ public class SVGEditor extends JFrame {
         optimalizeCode.addActionListener(e -> {
             // Optimalizace
             try {
-                SVGUtils.parseSVG(codeArea.getText());
-                codeArea.setText(SVGUtils.optimizeSVG(codeArea.getText()));
+                SVGUtils.parseSVG(Singleton.getInstance().getCodeArea().getText());
+                Singleton.getInstance().getCodeArea().setText(SVGUtils.optimizeSVG(Singleton.getInstance().getCodeArea().getText()));
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, ex.getLocalizedMessage(), "Optimalizace SVG", JOptionPane.ERROR_MESSAGE);
@@ -158,7 +159,7 @@ public class SVGEditor extends JFrame {
         validateCode.addActionListener(e -> {
             // Validace
             try {
-                SVGUtils.parseSVG(codeArea.getText());
+                SVGUtils.parseSVG(Singleton.getInstance().getCodeArea().getText());
                 JOptionPane.showMessageDialog(null, "SVG kód je validní.", "Validace SVG", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -179,6 +180,7 @@ public class SVGEditor extends JFrame {
             // Refresh
             Singleton.GetInstance().getDrawPanel().repaint();
             editSplitPane.refreshTables();
+            Singleton.GetInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getImage()));
         });
         toolMenu.add(clear);
         menuBar.add(fileMenu);
@@ -205,13 +207,14 @@ public class SVGEditor extends JFrame {
 
     private void addMainSplitPane() {
         // Kód SVG
-        this.codeArea = new RSyntaxTextArea();
+        RSyntaxTextArea codeArea = new RSyntaxTextArea();
         codeArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
         RTextScrollPane codeAreaScroll = new RTextScrollPane(codeArea);
+        Singleton.getInstance().setCodeArea(codeArea);
         // Pravý JSplitPanel pro editaci
         this.editSplitPane = new JEditSplitPane();
         // Inicializace DrawPanelu, přidání tvarů
-        Singleton.GetInstance().setDrawPanel(new JDrawPanel(editSplitPane, codeArea));
+        Singleton.GetInstance().setDrawPanel(new JDrawPanel(editSplitPane, Singleton.getInstance().getCodeArea()));
         // Vytvoření a konfigurace TabbedPane
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Kód", codeAreaScroll);

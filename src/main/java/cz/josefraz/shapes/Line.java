@@ -24,11 +24,11 @@ public class Line extends Shape {
     @XmlAttribute(name = "y2")
     private int positionY2;
 
-    public Line(int positionX, int postitionY, int postitionX2, int positionY2, String borderColor, float strokeWidth) {
-        super(positionX, postitionY, borderColor, null, strokeWidth);
+    public Line(int positionX, int positionY, int positionX2, int positionY2, String borderColor, float strokeWidth) {
+        super(positionX, positionY, borderColor, null, strokeWidth);
         this.positionX1 = positionX;
-        this.positionY1 = postitionY;
-        this.positionX2 = postitionX2;
+        this.positionY1 = positionY;
+        this.positionX2 = positionX2;
         this.positionY2 = positionY2;
     }
 
@@ -74,8 +74,8 @@ public class Line extends Shape {
         return positionY2;
     }
 
-    public void setPositionX2(int postitionX2) {
-        this.positionX2 = postitionX2;
+    public void setPositionX2(int positionX2) {
+        this.positionX2 = positionX2;
     }
 
     public void setPositionY2(int positionY2) {

@@ -3,6 +3,8 @@ package cz.josefraz.utils;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+
 import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.shapes.Shape;
 
@@ -11,6 +13,7 @@ public class Singleton {
     private ArrayList<Shape> shapes;
     private JDrawPanel drawPanel;
     private Dimension maxedWindowSize;
+    private RSyntaxTextArea codeArea;
 
     private Singleton() {
         this.shapes = new ArrayList<>();
@@ -57,5 +60,17 @@ public class Singleton {
 
     public void removeShapeByIndex(int index) {
         this.shapes.remove(index);
+    }
+
+    public static Singleton getInstance() {
+        return instance;
+    }
+
+    public RSyntaxTextArea getCodeArea() {
+        return codeArea;
+    }
+
+    public void setCodeArea(RSyntaxTextArea codeArea) {
+        this.codeArea = codeArea;
     }
 }

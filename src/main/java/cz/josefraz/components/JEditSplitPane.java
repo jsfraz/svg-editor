@@ -9,9 +9,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import cz.josefraz.shapes.Canvas;
 import cz.josefraz.tableModels.AttributeTableModel;
 import cz.josefraz.tableModels.ShapeTableModel;
 import cz.josefraz.utils.Singleton;
+import cz.josefraz.utils.XMLUtils;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyAdapter;
@@ -79,6 +81,7 @@ public class JEditSplitPane extends JSplitPane {
                         attributeModel.setAttributes(-1);
                         attributeModel.fireTableDataChanged();
                         Singleton.GetInstance().getDrawPanel().repaint();
+                        Singleton.getInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getImage()));
                     }
                 }
             }

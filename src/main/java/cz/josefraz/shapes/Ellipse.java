@@ -19,9 +19,9 @@ public class Ellipse extends Shape {
     @XmlAttribute(name="ry")
     private int lengthY;
 
-    public Ellipse(int positionX, int postitionY, String borderColor, String fillColor, int lengthA, int lengthB,
+    public Ellipse(int positionX, int positionY, String borderColor, String fillColor, int lengthA, int lengthB,
             float strokeWidth) {
-        super(positionX, postitionY, borderColor, fillColor, strokeWidth);
+        super(positionX, positionY, borderColor, fillColor, strokeWidth);
         this.lengthX = lengthA;
         this.lengthY = lengthB;
     }

@@ -36,9 +36,9 @@ public class Canvas {
         return shapes;
     }
 
-    public static Canvas getImage(List<Shape> shapes) {
+    public static Canvas getImage() {
         Canvas image = new Canvas();
-        image.shapes = shapes;
+        image.shapes = Singleton.GetInstance().getShapes();
         return image;
     }
 }
