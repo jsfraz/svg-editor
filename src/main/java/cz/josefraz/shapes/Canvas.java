@@ -9,12 +9,15 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import cz.josefraz.utils.Singleton;
 
 @XmlRootElement(name = "svg")
-@XmlSeeAlso({Ellipse.class, Circle.class, Square.class, Line.class, Rectangle.class})
+@XmlSeeAlso({ Ellipse.class, Circle.class, Square.class, Line.class, Rectangle.class })
 public class Canvas {
-    
+
     private ArrayList<Shape> shapes = new ArrayList<>();
 
     @XmlAttribute()
@@ -29,9 +32,8 @@ public class Canvas {
     }
 
     @XmlElementWrapper(name = "g")
-    @XmlAnyElement(lax=true)
-    public ArrayList<Shape> getShapes()
-    {
+    @XmlAnyElement(lax = true)
+    public ArrayList<Shape> getShapes() {
         return shapes;
     }
 
@@ -39,5 +41,11 @@ public class Canvas {
         Canvas image = new Canvas();
         image.shapes = Singleton.getInstance().getShapes();
         return image;
+    }
+
+    public String toJson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(this);
     }
 }

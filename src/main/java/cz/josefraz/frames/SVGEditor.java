@@ -98,7 +98,7 @@ public class SVGEditor extends JFrame {
                     openSVG();
                 }
             } else {
-                // TODO dialog otevření
+                openSVG();
             }
         });
         fileMenu.add(openMenuItem);
@@ -131,8 +131,30 @@ public class SVGEditor extends JFrame {
         });
         saveAsMenuItem.add(saveAsSVG);
         JMenuItem saveAsJSON = new JMenuItem("JSON");
-        saveAsSVG.addActionListener(e -> {
-            // TODO JSON
+        saveAsJSON.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new FileNameExtensionFilter("JSON soubory (*.json)", "json"));
+            int returnValue = fileChooser.showSaveDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                String filePath = selectedFile.getAbsolutePath();
+
+                // Pokud neexistuje přípona .json, přidej ji
+                if (!filePath.toLowerCase().endsWith(".json")) {
+                    selectedFile = new File(filePath + ".json");
+                }
+
+                // Uložení obsahu souboru
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile));
+                    writer.write(Canvas.getCanvas().toJson());
+                    writer.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Chyba při ukládání souboru.", "Chyba",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
         saveAsMenuItem.add(saveAsJSON);
         fileMenu.add(saveAsMenuItem);
