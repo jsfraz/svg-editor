@@ -2,10 +2,11 @@ package cz.josefraz.frames;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -61,7 +62,6 @@ public class SVGEditor extends JFrame {
         JMenuItem newFile = new JMenuItem("Nový");
         newFile.addActionListener(e -> {
             if (mainSplitPane == null) {
-                // TODO dialog nového souboru
                 addMainSplitPane();
                 enableDisableMenuButtons(true);
             } else {
@@ -94,7 +94,8 @@ public class SVGEditor extends JFrame {
                     enableDisableMenuButtons(false);
                     revalidate();
                     repaint();
-                    // TODO dialog otevření
+                    
+                    openSVG();
                 }
             } else {
                 // TODO dialog otevření
@@ -105,27 +106,28 @@ public class SVGEditor extends JFrame {
         JMenuItem saveAsSVG = new JMenuItem("SVG");
         saveAsSVG.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setFileFilter(new FileNameExtensionFilter("SVG soubory (*.svg)", "svg"));
-                int returnValue = fileChooser.showSaveDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    String filePath = selectedFile.getAbsolutePath();
+            fileChooser.setFileFilter(new FileNameExtensionFilter("SVG soubory (*.svg)", "svg"));
+            int returnValue = fileChooser.showSaveDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                String filePath = selectedFile.getAbsolutePath();
 
-                    // Pokud neexistuje přípona .svg, přidej ji
-                    if (!filePath.toLowerCase().endsWith(".svg")) {
-                        selectedFile = new File(filePath + ".svg");
-                    }
-
-                    // Uložení obsahu souboru
-                    try {
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile));
-                        writer.write(XMLUtils.getXml(Canvas.getCanvas()));
-                        writer.close();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        JOptionPane.showMessageDialog(null, "Chyba při ukládání souboru.", "Chyba", JOptionPane.ERROR_MESSAGE);
-                    }
+                // Pokud neexistuje přípona .svg, přidej ji
+                if (!filePath.toLowerCase().endsWith(".svg")) {
+                    selectedFile = new File(filePath + ".svg");
                 }
+
+                // Uložení obsahu souboru
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile));
+                    writer.write(XMLUtils.getXml(Canvas.getCanvas()));
+                    writer.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Chyba při ukládání souboru.", "Chyba",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
         saveAsMenuItem.add(saveAsSVG);
         JMenuItem saveAsJSON = new JMenuItem("JSON");
@@ -268,7 +270,7 @@ public class SVGEditor extends JFrame {
             public void changedUpdate(DocumentEvent e) {
                 if (Singleton.getInstance().getListen()) {
                     try {
-                        Canvas canvas = XMLUtils.getImage(codeArea.getText());
+                        Canvas canvas = XMLUtils.getCanvas(codeArea.getText());
                         Singleton.getInstance().setShapes(canvas.getShapes());
                         editSplitPane.refreshTables();
                         Singleton.getInstance().getDrawPanel().repaint();
@@ -307,5 +309,36 @@ public class SVGEditor extends JFrame {
         codeMenu.setEnabled(enable);
         shapeMenu.setEnabled(enable);
         toolMenu.setEnabled(enable);
+    }
+
+    private void openSVG() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Otevřít SVG soubor");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("SVG soubory", "svg"));
+        int userSelection = fileChooser.showOpenDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
+                StringBuilder content = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    content.append(line).append("\n");
+                }
+                reader.close();
+
+                // znovupřidání
+                Canvas canvas = XMLUtils.getCanvas(content.toString());
+                Singleton.getInstance().setShapes(canvas.getShapes());
+                addMainSplitPane();
+                enableDisableMenuButtons(true);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        // znovupřidání
+        addMainSplitPane();
+        enableDisableMenuButtons(true);
     }
 }

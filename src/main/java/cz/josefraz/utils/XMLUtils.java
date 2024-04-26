@@ -25,7 +25,7 @@ public class XMLUtils {
         return xmlString;
     }
 
-    public static Canvas getImage(String xml) throws JAXBException {
+    public static Canvas getCanvas(String xml) throws JAXBException {
         JAXBContext ctx = JAXBContext.newInstance(Canvas.class);
         Unmarshaller unmarshaller = ctx.createUnmarshaller();
         StringReader sr = new StringReader(xml);
