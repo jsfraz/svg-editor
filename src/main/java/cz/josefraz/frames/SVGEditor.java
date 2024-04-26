@@ -19,6 +19,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.components.JEditSplitPane;
+import cz.josefraz.shapes.Canvas;
 import cz.josefraz.shapes.Circle;
 import cz.josefraz.shapes.Ellipse;
 import cz.josefraz.shapes.Line;
@@ -26,6 +27,7 @@ import cz.josefraz.shapes.Rectangle;
 import cz.josefraz.shapes.Square;
 import cz.josefraz.utils.SVGUtils;
 import cz.josefraz.utils.Singleton;
+import cz.josefraz.utils.XMLUtils;
 
 public class SVGEditor extends JFrame {
 
@@ -178,6 +180,7 @@ public class SVGEditor extends JFrame {
             // Refresh
             Singleton.GetInstance().getDrawPanel().repaint();
             editSplitPane.refreshTables();
+            Singleton.GetInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getImage()));
         });
         toolMenu.add(clear);
         menuBar.add(fileMenu);
