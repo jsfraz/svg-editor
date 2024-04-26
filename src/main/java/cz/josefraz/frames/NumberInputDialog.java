@@ -7,6 +7,7 @@ import cz.josefraz.utils.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import cz.josefraz.shapes.Canvas;
 
 public class NumberInputDialog extends JDialog {
 
@@ -37,6 +38,7 @@ public class NumberInputDialog extends JDialog {
             mainWindow.setEnabled(true);
             Singleton.GetInstance().getDrawPanel().repaint();
             mainWindow.getEditSplitPane().refreshTables();
+            Singleton.GetInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getImage()));
             dispose();
         });
 

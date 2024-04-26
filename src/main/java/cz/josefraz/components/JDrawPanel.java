@@ -102,7 +102,7 @@ public class JDrawPanel extends JPanel {
             }
         });
 
-        codeArea.setText(XMLUtils.getXml(Canvas.getImage(Singleton.GetInstance().getShapes())));
+        codeArea.setText(XMLUtils.getXml(Canvas.getImage()));
     }
 
     @Override
@@ -138,7 +138,7 @@ public class JDrawPanel extends JPanel {
 
         g2d.dispose();
 
-        codeArea.setText(XMLUtils.getXml(Canvas.getImage(Singleton.GetInstance().getShapes())));
+        codeArea.setText(XMLUtils.getXml(Canvas.getImage()));
     }
 
     // Nastavení kresleného tvaru
