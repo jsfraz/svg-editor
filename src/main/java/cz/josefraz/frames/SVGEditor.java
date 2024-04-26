@@ -2,8 +2,13 @@ package cz.josefraz.frames;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -14,6 +19,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBException;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -34,7 +40,7 @@ import cz.josefraz.utils.XMLUtils;
 
 public class SVGEditor extends JFrame {
 
-    private JMenuItem saveAsMenuItem;
+    private JMenu saveAsMenuItem;
     private JMenu codeMenu;
     private JMenu shapeMenu;
     private JMenu toolMenu;
@@ -75,33 +81,58 @@ public class SVGEditor extends JFrame {
             }
         });
         fileMenu.add(newFile);
-        JMenuItem openMenuItem = new JMenuItem("Otevřít...");
-        // TODO SVG a JSON
-        /*
-         * openMenuItem.addActionListener(e -> {
-         * if (mainSplitPane != null) {
-         * int option = JOptionPane.showConfirmDialog(null,
-         * "Chcete pokračovat bez uložení změn?",
-         * "Data budou ztracena", JOptionPane.YES_NO_OPTION);
-         * if (option == JOptionPane.YES_OPTION) {
-         * Singleton.getInstance().setShapes(new ArrayList<>());
-         * remove(mainSplitPane);
-         * mainSplitPane = null;
-         * enableDisableMenuButtons(false);
-         * revalidate();
-         * repaint();
-         * // TODO dialog otevření
-         * }
-         * } else {
-         * // TODO dialog otevření
-         * }
-         * });
-         */
-        saveAsMenuItem = new JMenuItem("Uložit jako...");
-        saveAsMenuItem.addActionListener(e -> {
-            // TODO uložení souboru jako...
+        JMenuItem openMenuItem = new JMenuItem("Otevřít SVG");
+        openMenuItem.addActionListener(e -> {
+            if (mainSplitPane != null) {
+                int option = JOptionPane.showConfirmDialog(null,
+                        "Chcete pokračovat bez uložení změn?",
+                        "Data budou ztracena", JOptionPane.YES_NO_OPTION);
+                if (option == JOptionPane.YES_OPTION) {
+                    Singleton.getInstance().setShapes(new ArrayList<>());
+                    remove(mainSplitPane);
+                    mainSplitPane = null;
+                    enableDisableMenuButtons(false);
+                    revalidate();
+                    repaint();
+                    // TODO dialog otevření
+                }
+            } else {
+                // TODO dialog otevření
+            }
         });
         fileMenu.add(openMenuItem);
+        saveAsMenuItem = new JMenu("Uložit jako...");
+        JMenuItem saveAsSVG = new JMenuItem("SVG");
+        saveAsSVG.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setFileFilter(new FileNameExtensionFilter("SVG soubory (*.svg)", "svg"));
+                int returnValue = fileChooser.showSaveDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    String filePath = selectedFile.getAbsolutePath();
+
+                    // Pokud neexistuje přípona .svg, přidej ji
+                    if (!filePath.toLowerCase().endsWith(".svg")) {
+                        selectedFile = new File(filePath + ".svg");
+                    }
+
+                    // Uložení obsahu souboru
+                    try {
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile));
+                        writer.write(XMLUtils.getXml(Canvas.getCanvas()));
+                        writer.close();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Chyba při ukládání souboru.", "Chyba", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+        });
+        saveAsMenuItem.add(saveAsSVG);
+        JMenuItem saveAsJSON = new JMenuItem("JSON");
+        saveAsSVG.addActionListener(e -> {
+            // TODO JSON
+        });
+        saveAsMenuItem.add(saveAsJSON);
         fileMenu.add(saveAsMenuItem);
         shapeMenu = new JMenu("Tvary");
         JMenuItem circleItem = new JMenuItem("Kruh");
