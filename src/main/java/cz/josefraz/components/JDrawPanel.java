@@ -80,6 +80,11 @@ public class JDrawPanel extends JPanel {
                     } else {
                         Singleton.getInstance().addShape(drawnShape);
                         editSplitPane.refreshTables();
+                        try {
+                            Singleton.getInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getCanvas()));
+                        } catch (JAXBException e1) {
+                            e1.printStackTrace();
+                        }
                         repaint();
                     }
                     drawnShape = null;

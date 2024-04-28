@@ -183,7 +183,7 @@ public class SVGEditor extends JFrame {
             new NewShapeDialog(this, new Ellipse());
         });
         shapeMenu.add(ovalItem);
-        JMenuItem lineItem = new JMenuItem("TODO Čára");
+        JMenuItem lineItem = new JMenuItem("Čára");
         lineItem.addActionListener(e -> {
             setEnabled(false);
             new NewShapeDialog(this, new Line());
