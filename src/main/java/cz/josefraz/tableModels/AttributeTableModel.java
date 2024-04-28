@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
+import javax.xml.bind.JAXBException;
 
+import cz.josefraz.shapes.Canvas;
 import cz.josefraz.shapes.Line;
 import cz.josefraz.utils.Singleton;
+import cz.josefraz.utils.XMLUtils;
 
 // Vlastní model tabulky odvozený od AbstractTableModel
 public class AttributeTableModel extends AbstractTableModel {
@@ -113,6 +116,11 @@ public class AttributeTableModel extends AbstractTableModel {
             }
             // Update
             fireTableCellUpdated(rowIndex, columnIndex);
+            try {
+                Singleton.getInstance().getCodeArea().setText(XMLUtils.getXml(Canvas.getCanvas()));
+            } catch (JAXBException e) {
+                e.printStackTrace();
+            }
             Singleton.getInstance().getDrawPanel().repaint();
         }
     }
