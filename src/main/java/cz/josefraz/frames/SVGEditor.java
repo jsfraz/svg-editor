@@ -17,7 +17,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -26,6 +28,9 @@ import javax.xml.bind.JAXBException;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
+
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 
 import cz.josefraz.components.JDrawPanel;
 import cz.josefraz.components.JEditSplitPane;
@@ -51,6 +56,7 @@ public class SVGEditor extends JFrame {
 
     public SVGEditor() {
         super("SVG Editor");
+        JFrame frame = this;
 
         // Barvy JTabbedPanelu
         UIManager.put("TabbedPane.selected", Color.white);
@@ -94,7 +100,7 @@ public class SVGEditor extends JFrame {
                     enableDisableMenuButtons(false);
                     revalidate();
                     repaint();
-                    
+
                     openSVG();
                 }
             } else {
@@ -251,11 +257,35 @@ public class SVGEditor extends JFrame {
                 e1.printStackTrace();
             }
         });
+        JMenu themeMenu = new JMenu("Vzhled");
+        // Vzhled
+        JMenuItem darkThemeItem = new JMenuItem("Tmavý");
+        darkThemeItem.addActionListener(e -> {
+            try {
+                UIManager.setLookAndFeel(new FlatDarkLaf());
+                SwingUtilities.updateComponentTreeUI(frame);
+            } catch (UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
+            }
+        });
+        JMenuItem lightThemeItem = new JMenuItem("Světlý");
+        lightThemeItem.addActionListener(e -> {
+            try {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+                SwingUtilities.updateComponentTreeUI(frame);
+            } catch (UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        themeMenu.add(darkThemeItem);
+        themeMenu.add(lightThemeItem);
         toolMenu.add(clear);
         menuBar.add(fileMenu);
         menuBar.add(codeMenu);
         menuBar.add(shapeMenu);
         menuBar.add(toolMenu);
+        menuBar.add(themeMenu);
         setJMenuBar(menuBar);
 
         // Zakázání menu tlačítek
